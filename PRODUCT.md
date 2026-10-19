@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Vite + React 18 + TypeScript + Tailwind CSS v4, shadcn-совместимая структура (`src/components/ui`), three.js / @react-three/fiber / drei, GSAP + ScrollTrigger, Lenis, framer-motion, lucide-react. Зафиксировано в `TZ.md §2` и `CLAUDE.md`.
+Vite + React 18 + TypeScript + Tailwind CSS v4, shadcn-совместимая структура (`src/components/ui`), react-router + vite-react-ssg (пре-рендер всех страниц), three.js / @react-three/fiber / drei, GSAP + ScrollTrigger, Lenis, framer-motion, lucide-react, sharp для медиа. Зафиксировано в `TZ.md §2` и `CLAUDE.md`.
 
 ## Users
 
@@ -26,7 +26,7 @@ Vite + React 18 + TypeScript + Tailwind CSS v4, shadcn-совместимая с
 
 ## Operating Context
 
-Одностраничный лендинг (12 блоков, порядок блоков старого сайта) + `/policy`. Этап 2 (страницы услуг, портфолио, «О нас») позже. Хостинг статикой. Ревью заказчиком идёт через пуши в `main` после каждого блока.
+Структура повторяет старый сайт: главная (12 блоков) → каталог `/uslugi` (10 направлений) → страница направления → карточка позиции (игра, фотозона, интерактив; на старом сайте это были попапы). Плюс `/portfolio`, `/about`, `/contacts`, `/policy`. Старые URL получают 301 на новые. Хостинг статикой. Ревью заказчиком идёт через пуши в `main` после каждого блока.
 
 ## Capabilities and Constraints
 
@@ -42,7 +42,7 @@ Vite + React 18 + TypeScript + Tailwind CSS v4, shadcn-совместимая с
 
 ## Evidence on Hand
 
-- Есть: реальные фото и видео с событий (у клиента; часть — со старого сайта, список URL в `TZ.md §10`), логотипы клиентов со старого сайта.
+- Есть: архив старого сайта `old-site/` — фото по направлениям и позициям, тексты и техтребования (`description.md`), ссылки на YouTube/VK, логотипы клиентов (`logos/clients/`). Исходники видео-лупов — у клиента.
 - Нет: цифр (год основания, число событий/клиентов), отзывов, векторного логотипа. Не выдумывать; до получения логотипа — вордмарк Inter Tight 600 + `✱`.
 
 ## Product Principles

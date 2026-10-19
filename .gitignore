@@ -6,3 +6,4 @@ dist/
 Thumbs.db
 *.log
 push.ps1
+.vite-react-ssg-temp/
