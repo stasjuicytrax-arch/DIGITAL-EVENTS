@@ -308,22 +308,15 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .hero-progress { width: 100%; transform-origin: left; animation: hero-progress 6s linear both; }
 @keyframes hero-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-/* Bento-карточка: scan-line один раз сверху вниз на наведении, стеклянная панель техтребований выезжает снизу */
-.bento-scan {
-  position: absolute; inset-inline: 0; top: 0; height: 30%; pointer-events: none; opacity: 0;
-  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--de-lime) 18%, transparent) 85%, var(--de-lime) 100%);
-  mask-image: linear-gradient(to bottom, transparent, #000);
-}
+/* Bento-карточка: стеклянная панель техтребований выезжает снизу */
 @media (hover: hover) and (pointer: fine) {
-  .bento-card:hover .bento-scan { animation: bento-scan 900ms var(--ease-in-out) 1 both; }
   .bento-card .bento-tech { opacity: 0; translate: 0 16px; transition: opacity var(--t-fast) var(--ease-soft), translate var(--t-base) var(--ease-out-expo); }
   .bento-card:hover .bento-tech, .bento-card:focus-visible .bento-tech { opacity: 1; translate: 0 0; }
 }
-@keyframes bento-scan { 0% { opacity: 1; transform: translateY(-100%); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateY(340%); } }
 
 @media (prefers-reduced-motion: reduce) {
   .letter-reveal > span { animation: fade-in 200ms ease-out both; }
-  .hero-kenburns, .bento-card:hover .bento-scan { animation: none; }
+  .hero-kenburns { animation: none; }
 }
 
 /* Индекс каталога: на наведении остальные строки гаснут до --de-mute */

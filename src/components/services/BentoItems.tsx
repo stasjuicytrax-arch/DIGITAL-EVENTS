@@ -40,7 +40,7 @@ const SPAN: Record<Size, string> = {
 
 /**
  * Карточка позиции (desktop): фото «пролистывается» движением мыши по X — все фото позиции как плёнка,
- * HUD-уголки и одна scan-line сверху вниз на наведении, снизу выезжает стеклянная панель с моно-чипами
+ * HUD-уголки на наведении, снизу выезжает стеклянная панель с моно-чипами
  * техтребований, tilt ≤ 6°, номер моно, glyph-scramble названия. Карточка целиком — ссылка.
  * Mobile: фото листаются сами, чипы видны сразу.
  */
@@ -110,7 +110,6 @@ export function BentoCard({ item, to, n, size = 'small', className }: { item: It
       <span aria-hidden="true" className="hud-corner hud-corner--tr" />
       <span aria-hidden="true" className="hud-corner hud-corner--bl" />
       <span aria-hidden="true" className="hud-corner hud-corner--br" />
-      <span aria-hidden="true" className="bento-scan" />
 
       <div className="relative flex h-full flex-col justify-end p-5 md:p-6">
         <div className="flex items-start justify-between gap-4">
