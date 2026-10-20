@@ -46,6 +46,14 @@ export const result = {
   cta: { label: 'Связаться с нами', to: '/#contact' },
 } as const
 
+/** Блок 8: клиенты (TZ §5). Логотипы — src/content/clients.ts */
+export const clientsBlock = {
+  index: '06',
+  label: 'Клиенты',
+  titleTop: 'Компании,',
+  titleBottom: 'с которыми мы работаем',
+} as const
+
 /** Блок 2: бегущая строка-приветствие со старого сайта */
 export const greeting = {
   label: 'Приветствие на разных языках',

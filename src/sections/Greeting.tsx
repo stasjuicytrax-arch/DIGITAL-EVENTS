@@ -1,8 +1,7 @@
-import { Fragment, useEffect, useRef } from 'react'
+import { Fragment, useRef } from 'react'
 import { greeting } from '@/content/home'
 import { Asterisk } from '@/components/icons/Asterisk'
-import { ScrollTrigger } from '@/lib/gsap'
-import { prefersReducedMotion, useInView } from '@/lib/hooks'
+import { useVelocityMarquee } from '@/lib/marquee'
 import { scrambleTo } from '@/lib/scramble'
 import { cn } from '@/lib/utils'
 
@@ -35,36 +34,7 @@ function Sequence({ outline }: { outline?: boolean }) {
  * Скорость и наклон (skewX ≤ 6°) зависят от скорости скролла. Вне экрана и при reduced-motion стоит.
  */
 export function Greeting() {
-  const [section, inView] = useInView<HTMLElement>('0px')
-  const rows = useRef<(HTMLDivElement | null)[]>([])
-
-  useEffect(() => {
-    if (!inView || prefersReducedMotion()) return
-    const els = rows.current.filter(Boolean) as HTMLDivElement[]
-    const offsets = els.map(() => 0)
-    let velocity = 0, skew = 0, raf = 0, last = performance.now()
-    const st = ScrollTrigger.create({
-      trigger: section.current, start: 'top bottom', end: 'bottom top',
-      onUpdate: (self) => { velocity = self.getVelocity() },
-    })
-    const tick = (now: number) => {
-      const dt = Math.min(64, now - last) / 1000
-      last = now
-      velocity *= 0.9
-      const boost = Math.min(6, Math.abs(velocity) / 400)
-      skew += (Math.max(-6, Math.min(6, velocity / 300)) - skew) * 0.12
-      els.forEach((el, i) => {
-        const dir = i === 0 ? -1 : 1
-        const half = el.scrollWidth / 2
-        offsets[i] = (offsets[i] + dir * (60 + 60 * boost) * dt) % half
-        const x = dir < 0 ? offsets[i] : offsets[i] - half
-        el.style.transform = `translate3d(${x.toFixed(2)}px,0,0) skewX(${(i === 0 ? skew : -skew).toFixed(2)}deg)`
-      })
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => { cancelAnimationFrame(raf); st.kill() }
-  }, [inView, section])
+  const [section, row] = useVelocityMarquee<HTMLElement>({ speed: 60, skew: true })
 
   return (
     <section ref={section} aria-label={greeting.label} className="overflow-hidden py-24 md:py-32">
@@ -72,7 +42,7 @@ export function Greeting() {
       <div aria-hidden="true" className="text-display-xl flex flex-col gap-2 text-white">
         {[false, true].map((outline, i) => (
           <div key={i} className="overflow-hidden py-[0.04em]">
-            <div ref={(el) => { rows.current[i] = el }} className={cn('flex w-max', outline && 'greeting-outline')}>
+            <div ref={row(i)} className={cn('flex w-max', outline && 'greeting-outline')}>
               <Sequence outline={outline} />
               <Sequence outline={outline} />
             </div>

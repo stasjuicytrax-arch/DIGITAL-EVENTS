@@ -205,6 +205,10 @@
 .greeting-outline { color: transparent; -webkit-text-stroke: 1px var(--de-white); }
 .greeting-outline-mute { color: transparent; -webkit-text-stroke: 1px var(--de-mute); }
 
+/* Блок 8: логотипы клиентов — монохром --de-ink 60%, на hover полный цвет и лёгкое увеличение */
+.client-logo { filter: brightness(0); opacity: .6; transition: filter var(--t-base) var(--ease-soft), opacity var(--t-base) var(--ease-soft), transform var(--t-base) var(--ease-out-expo); }
+.client-logo:hover { filter: none; opacity: 1; transform: scale(1.06); }
+
 /* Бегущие чипы направлений в нижней полосе hero */
 .chips-track { animation: chips-run 40s linear infinite; }
 @keyframes chips-run { to { transform: translateX(-50%); } }
