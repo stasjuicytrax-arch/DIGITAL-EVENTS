@@ -1,9 +1,8 @@
-// Навигация (TZ §4): Услуги (мега-меню) · Игры · Портфолио · О нас · Контакты + CTA
+// Навигация (TZ §4): Услуги (мега-меню, видеоигры — внутри) · Портфолио · О нас · Контакты + CTA
 export const nav = {
   home: { label: 'DIGITAL EVENTS — на главную', to: '/' },
   links: [
     { label: 'Услуги', to: '/uslugi', mega: true },
-    { label: 'Игры', to: '/uslugi/videogames' },
     { label: 'Портфолио', to: '/portfolio' },
     { label: 'О нас', to: '/about' },
     { label: 'Контакты', to: '/contacts' },

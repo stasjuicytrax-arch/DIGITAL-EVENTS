@@ -255,7 +255,7 @@ export function Nav() {
                   <NavLink
                     to={l.to}
                     tabIndex={off}
-                    className={cn('rounded-pill py-2 pl-4 pr-1 text-small hover:text-white', mega || (pathname.startsWith('/uslugi') && pathname !== '/uslugi/videogames') ? 'text-white' : 'text-mute-2')}
+                    className={cn('rounded-pill py-2 pl-4 pr-1 text-small hover:text-white', mega || pathname.startsWith('/uslugi') ? 'text-white' : 'text-mute-2')}
                   >
                     {l.label}
                   </NavLink>
