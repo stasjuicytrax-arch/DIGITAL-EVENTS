@@ -83,6 +83,8 @@
 @utility text-display-xxl {
   font-family: var(--font-display); font-weight: 600; text-transform: uppercase;
   font-size: clamp(64px, 13vw, 232px); line-height: .84; letter-spacing: -.055em;
+  /* на 375px 64px не вмещают «ТЕХНОЛОГИИ»: ниже 640px шрифт тянется от ширины (предложено к правке DESIGN §2.2) */
+  @media (width < 640px) { font-size: 12.4vw; }
 }
 @utility text-display-xl {
   font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
@@ -119,6 +121,76 @@
 @utility px-margin { padding-inline: var(--margin); }
 @utility gap-gutter { gap: var(--gutter); }
 @utility py-section { padding-block: var(--section-y); }
+
+/* Liquid Glass DESIGN.md §7.1 (фильтр — src/components/ui/liquid-glass.tsx).
+   Фолбэк: blur(10px) + полупрозрачная белая заливка; в Chromium — SVG-преломление. */
+.glass {
+  isolation: isolate;
+  background: color-mix(in srgb, var(--de-white) 6%, transparent);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4) brightness(1.05);
+  backdrop-filter: blur(10px) saturate(1.4) brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--de-white) 22%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--de-white) 6%, transparent),
+    inset 0 0 0 1px var(--de-line),
+    inset 0 0 24px color-mix(in srgb, var(--de-white) 4%, transparent),
+    0 12px 32px -12px color-mix(in srgb, var(--de-void) 70%, transparent);
+}
+.glass-svg .glass {
+  background: color-mix(in srgb, var(--de-white) 3%, transparent);
+  backdrop-filter: url(#de-liquid) blur(2px) saturate(1.4) brightness(1.05);
+}
+/* Навбар: чуть темнее, чтобы лого читалось над светлыми фото */
+.glass.glass-nav, .glass-svg .glass.glass-nav { background: color-mix(in srgb, var(--de-void) 40%, transparent); }
+
+/* Ghost: заливка white «вытекает» из точки входа курсора */
+.btn-ghost {
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--de-line-strong);
+}
+.btn-ghost::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--de-white);
+  clip-path: circle(0 at var(--fx, 50%) var(--fy, 50%));
+  transition: clip-path var(--t-base) var(--ease-out-expo);
+}
+.btn-ghost:hover { color: var(--de-ink); }
+.btn-ghost:hover::before { clip-path: circle(150% at var(--fx, 50%) var(--fy, 50%)); }
+
+/* Text link: линия уезжает вправо и возвращается слева */
+.link-underline {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 1px;
+  padding-bottom: 4px;
+}
+.link-underline:hover { animation: underline-run var(--t-slow) var(--ease-in-out); }
+@keyframes underline-run {
+  0% { background-position: 100% 100%; background-size: 100% 1px; }
+  45% { background-position: 100% 100%; background-size: 0 1px; }
+  55% { background-position: 0 100%; background-size: 0 1px; }
+  100% { background-position: 0 100%; background-size: 100% 1px; }
+}
+
+/* Линейка над панелью DESIGN.md §3: деления 8px, длинные 64px, бегунок прогресса */
+.ruler { container-type: inline-size; }
+.ruler-ticks {
+  background:
+    repeating-linear-gradient(to right, var(--de-line-strong) 0 1px, transparent 1px 64px) left bottom / 100% 100% no-repeat,
+    repeating-linear-gradient(to right, var(--de-line-strong) 0 1px, transparent 1px 8px) left bottom / 100% 6px no-repeat;
+}
+.ruler-runner {
+  transform: translateX(calc(var(--progress, 0) * (100cqw - 1px)));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--de-lime) 60%, transparent);
+}
+
+/* Кастомный курсор: нативный прячем только когда наш активен (desktop, pointer: fine) */
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-ghost::before { transition: none; }
+  .link-underline:hover { animation: none; }
+}
 
 /* Зерно DESIGN.md §7.4: SVG-noise поверх сайта, сдвиг 8 кадров/с */
 .grain {

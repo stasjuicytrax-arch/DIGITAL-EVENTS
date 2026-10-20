@@ -8,6 +8,7 @@ export const routes: RouteRecord[] = [
     entry: 'src/Layout.tsx',
     children: [
       { index: true, lazy: () => import('./pages/Home') },
+      { path: 'kit', lazy: () => import('./pages/Kit') },
       { path: '*', lazy: () => import('./pages/NotFound') },
     ],
   },
