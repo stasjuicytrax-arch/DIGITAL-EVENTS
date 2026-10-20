@@ -186,12 +186,6 @@
   box-shadow: 0 0 12px color-mix(in srgb, var(--de-lime) 60%, transparent);
 }
 
-/* Hero: скульптура из частиц (src/components/three/SculptureStage.tsx) */
-.sculpture-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .5s var(--ease-soft); }
-.sculpture-fallback { transition: opacity .5s var(--ease-soft); }
-.sculpture-stage[data-gl="on"] .sculpture-canvas { opacity: 1; }
-.sculpture-stage[data-gl="on"] .sculpture-fallback { opacity: 0; }
-
 /* Hero: line reveal заголовка и появление элементов (DESIGN.md §8.2), reduced-motion — fade 200ms */
 .reveal-line { display: block; overflow: hidden; padding-bottom: .04em; margin-bottom: -.04em; }
 .reveal-line > span { display: block; animation: line-up var(--t-slow) var(--ease-out-expo) both; animation-delay: calc(var(--d, 0) * 60ms + 200ms); }

@@ -5,12 +5,9 @@ import { SectionLabel } from '@/components/SectionLabel'
 import { Media } from '@/components/Media'
 import { Asterisk } from '@/components/icons/Asterisk'
 import { Button } from '@/components/ui/button'
-import { SculptureStage } from '@/components/three/SculptureStage'
-import { gsap } from '@/lib/gsap'
-import { isTouchDevice, prefersReducedMotion } from '@/lib/hooks'
+import { isTouchDevice } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
 
-const BASE = import.meta.env.BASE_URL
 const d = (n: number) => ({ ['--d' as string]: n })
 
 function Lead({ className }: { className?: string }) {
@@ -26,13 +23,12 @@ function Lead({ className }: { className?: string }) {
 }
 
 /**
- * Блок 1 Hero (TZ §5): панель с линейкой, жидкая хромовая скульптура из частиц,
+ * Блок 1 Hero (TZ §5): панель с линейкой,
  * H1 «ТЕХНОЛОГИИ / [капсула] РАЗВЛЕЧЕНИЙ», лид, CTA, плашка liquid glass, нижняя полоса с чипами,
- * SCROLL и координатами курсора. LCP — текст H1 (WebGL грузится отдельным чанком).
+ * SCROLL и координатами курсора. Скульптура из частиц убрана по решению заказчика (20.10.2026).
  */
 export function Hero() {
   const panel = useRef<HTMLDivElement>(null)
-  const stageWrap = useRef<HTMLDivElement>(null)
   const coords = useRef<HTMLSpanElement>(null)
 
   // координаты курсора — «приборная» деталь (desktop)
@@ -49,32 +45,13 @@ export function Hero() {
     return () => el.removeEventListener('pointermove', onMove)
   }, [])
 
-  // при уходе с экрана скульптура «утекает» вниз и гаснет (только transform + opacity)
-  useEffect(() => {
-    if (prefersReducedMotion() || !stageWrap.current || !panel.current) return
-    const tween = gsap.to(stageWrap.current, {
-      yPercent: 22, opacity: 0, ease: 'none',
-      scrollTrigger: { trigger: panel.current, start: 'top top', end: 'bottom top', scrub: true },
-    })
-    return () => { tween.scrollTrigger?.kill(); tween.kill() }
-  }, [])
-
   return (
     <Panel as="section" aria-labelledby="hero-title" className="pt-24" innerClassName="isolate flex min-h-[calc(100svh-10rem)] flex-col">
-      <div ref={panel} className="relative flex flex-1 flex-col" data-cursor="aim">
-        {/* слово-призрак за скульптурой (TZ §7) */}
+      <div ref={panel} className="relative flex flex-1 flex-col">
+        {/* слово-призрак (TZ §7) */}
         <p aria-hidden="true" className="text-display-xxl pointer-events-none absolute inset-x-0 top-[34%] -translate-y-1/2 select-none text-center text-white/[0.04] md:top-[40%] md:scale-[1.6]">
           {hero.backdrop}
         </p>
-
-        <div ref={stageWrap} className="absolute inset-0">
-          <SculptureStage
-            wideSrc={`${BASE}sculpture/sculpture-wide.webp`}
-            tallSrc={`${BASE}sculpture/sculpture-tall.webp`}
-            alt={hero.sculptureAlt}
-            pointerTarget={panel}
-          />
-        </div>
 
         <div className="relative p-6 md:p-12">
           <SectionLabel className="fade-up">{hero.label}</SectionLabel>
