@@ -13,7 +13,7 @@ const d = (n: number) => ({ ['--d' as string]: n })
 function Lead({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <p className="text-body-l fade-up max-w-[40ch] text-mute-2" style={d(1)}>{hero.lead}</p>
+      <p className="text-body-l fade-up max-w-[40ch] text-mute-2 [text-shadow:0_1px_14px_var(--de-graphite),0_0_2px_var(--de-graphite)]" style={d(1)}>{hero.lead}</p>
       <div className="mt-8 flex flex-wrap items-center gap-4">
         <Button href={hero.ctaPrimary.to} className="fade-up" style={d(2)}>{hero.ctaPrimary.label}</Button>
         <Button href={hero.ctaSecondary.to} variant="glass" className="fade-up" style={d(3)}>{hero.ctaSecondary.label}</Button>
@@ -25,7 +25,7 @@ function Lead({ className }: { className?: string }) {
 /**
  * Блок 1 Hero (TZ §5): панель с линейкой,
  * H1 «ТЕХНОЛОГИИ / РАЗВЛЕЧЕНИЙ» (капсула и слово-призрак убраны по правкам заказчика), лид, CTA, плашка liquid glass, нижняя полоса с чипами,
- * SCROLL и координатами курсора. Скульптура из частиц убрана по решению заказчика (20.10.2026).
+ * SCROLL и координатами курсора. На десктопе за текстом — лаймовый 3D-знак, следует за курсором. Скульптура из частиц убрана по решению заказчика (20.10.2026).
  */
 export function Hero() {
   const panel = useRef<HTMLDivElement>(null)
@@ -48,13 +48,16 @@ export function Hero() {
   return (
     <Panel as="section" aria-labelledby="hero-title" className="pt-24" innerClassName="isolate flex min-h-[calc(100svh-10rem)] flex-col">
       <div ref={panel} className="relative flex flex-1 flex-col">
+        {/* desktop: лаймовый 3D-знак за текстом + мягкая виньетка под заголовком и лидом, чтобы текст читался */}
+        <HeroLogo variant="desktop" className="absolute inset-0 hidden lg:block" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(to_top,var(--de-graphite)_0%,transparent_42%),radial-gradient(30%_36%_at_80%_46%,color-mix(in_srgb,var(--de-graphite)_90%,transparent),transparent)] lg:block" />
         <div className="relative p-6 md:p-12">
           <SectionLabel className="fade-up">{hero.label}</SectionLabel>
         </div>
 
         {/* зона скульптуры: на широких экранах справа лид и кнопки, слева снизу — плашка */}
         <div className="relative min-h-[38svh] flex-1 px-6 md:px-12">
-          <HeroLogo className="absolute inset-0 lg:hidden" />
+          <HeroLogo variant="mobile" className="absolute inset-0 lg:hidden" />
           <Lead className="absolute right-12 top-1/2 hidden w-[min(28rem,32vw)] -translate-y-1/2 xl:block" />
           <p className="glass fade-up absolute bottom-6 left-12 hidden max-w-[24ch] items-start gap-3 rounded-md p-4 text-small text-white md:flex" style={d(4)}>
             <Asterisk className="mt-1 size-3.5 shrink-0 text-lime" />

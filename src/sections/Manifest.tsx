@@ -28,7 +28,7 @@ export function Manifest() {
   }, [])
 
   return (
-    <section ref={section} aria-labelledby="manifest-title" className="flex min-h-svh flex-col justify-start px-margin pb-24 pt-4 md:justify-center md:pt-32">
+    <section ref={section} aria-labelledby="manifest-title" className="flex flex-col px-margin pb-16 pt-4 md:pb-20 md:pt-24">
       <div className="grid grid-cols-4 gap-gutter md:grid-cols-12">
         <SectionLabel index={manifest.index} className="col-span-4 mb-12 md:col-span-3 md:mb-0">{manifest.label}</SectionLabel>
         <h2 id="manifest-title" className="sr-only">{manifest.text.filter((t) => typeof t === 'string').join(' ')}</h2>

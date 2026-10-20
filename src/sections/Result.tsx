@@ -8,20 +8,23 @@ import { CodeBackground } from '@/components/ui/code-background'
 /**
  * Блок 5 Результат / подход (TZ §5): фон graphite + code-background (решётка → сфера глифов вокруг курсора),
  * H2 в keep-out зоне, подзаголовок, два принципа, стикеры liquid glass (±3°), уникальность, CTA ghost.
+ * Вход и выход мягкие: фон 240px перетекает из void в graphite, сетка глифов растворяется маской у краёв.
  */
 export function Result() {
   const title = useRef<HTMLDivElement>(null)
 
   return (
-    <section aria-labelledby="result-title" className="relative isolate overflow-hidden bg-graphite">
-      <CodeBackground keepOut={title} />
-      {/* виньетка по краям, чтобы canvas не «обрезался» (DESIGN §7.5) */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,var(--de-graphite)_100%)]" />
+    <section aria-labelledby="result-title" className="relative isolate overflow-hidden bg-graphite bg-[linear-gradient(to_bottom,var(--de-void),var(--de-graphite)_240px)]">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,#000_240px,#000_calc(100%-240px),transparent)]">
+        <CodeBackground keepOut={title} />
+        {/* виньетка по бокам, чтобы canvas не «обрезался» (DESIGN §7.5) */}
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--de-graphite),transparent_14%,transparent_86%,var(--de-graphite))]" />
+      </div>
 
-      <div className="relative px-margin py-section">
+      <div className="relative px-margin pb-section pt-24 md:pt-32">
         <SectionLabel index={result.index}>{result.label}</SectionLabel>
 
-        <div className="flex min-h-[70svh] flex-col items-center justify-center py-24 text-center">
+        <div className="flex min-h-[48svh] flex-col items-center justify-center py-12 text-center md:py-16">
           <div ref={title}>
             <h2 id="result-title" className="text-h2 max-w-[30ch]">
               <span className="block text-white">{result.titleTop}</span>

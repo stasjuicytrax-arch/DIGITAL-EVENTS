@@ -3,8 +3,10 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Lightformer } from '@react-three/drei'
 import * as THREE from 'three'
 import { logoPolygons } from './logo-geometry'
+import type { LogoVariant } from './HeroLogo'
 
 type Props = {
+  variant: LogoVariant
   /** рендер идёт только пока hero в зоне видимости */
   active: boolean
   reduced: boolean
@@ -14,8 +16,12 @@ type Props = {
 
 const pointer = { x: 0, y: 0 }
 
-/** Знак, выдавленный в объём: три детали с зазорами, фаски, полированный хром с лёгкой иризацией (DESIGN §7.3) */
-function LogoMesh({ reduced }: { reduced: boolean }) {
+// мышь: наклон ±17°, инерция lerp 0.08 на кадр 60 fps
+const TILT = 0.3
+const LERP = 0.08
+
+/** Знак, выдавленный в объём: три детали с зазорами, фаски, полированный хром (DESIGN §7.3). desktop — лаймовый хром */
+function LogoMesh({ variant, reduced, touch }: { variant: LogoVariant; reduced: boolean; touch: boolean }) {
   const group = useRef<THREE.Group>(null)
   const { viewport, size } = useThree()
 
@@ -30,22 +36,33 @@ function LogoMesh({ reduced }: { reduced: boolean }) {
   }, [])
   useEffect(() => () => geometry.dispose(), [geometry])
 
-  // на широких экранах знак слева от колонки с текстом, на узких — по центру
-  const wide = size.width >= 1200
-  const x = wide ? -viewport.width * 0.17 : 0
-  const scale = Math.min(1.15, (viewport.height / 3.2) * (wide ? 1.15 : 1.05), viewport.width / 2.6)
+  const desktop = variant === 'desktop'
+  // desktop: знак справа от центра, ~65% высоты hero (высота знака — 2 единицы); mobile — по центру своей зоны
+  const x = desktop ? viewport.width * 0.12 : 0
+  const scale = desktop
+    ? Math.min((viewport.height * 0.65) / 2, viewport.width / 3.4)
+    : Math.min(1.15, (viewport.height / 3.2) * 1.05, viewport.width / 2.6)
+  void size
 
   useFrame((state, dt) => {
     const g = group.current
     if (!g) return
-    if (reduced) { g.rotation.set(0.12, -0.32, 0); return }
+    if (reduced) { g.rotation.set(0.12, desktop ? 0.32 : -0.32, 0); g.scale.setScalar(1); return }
     const t = state.clock.elapsedTime
-    const k = 1 - Math.exp(-dt * 3)
-    const ry = Math.sin(t * 0.35) * 0.42 + pointer.x * 0.5
-    const rx = Math.sin(t * 0.27) * 0.08 - pointer.y * 0.32
+    // «дыхание» в покое: лёгкое парение и пульс масштаба
+    g.position.y = Math.sin(t * 0.8) * 0.05
+    g.scale.setScalar(1 + Math.sin(t * 1.1) * 0.012)
+    if (touch) {
+      // телефоны и планшеты: медленное авто-вращение
+      g.rotation.y += dt * 0.35
+      g.rotation.x = Math.sin(t * 0.4) * 0.1
+      return
+    }
+    const k = 1 - Math.pow(1 - LERP, dt * 60)
+    const ry = pointer.x * TILT + Math.sin(t * 0.35) * 0.06
+    const rx = -pointer.y * TILT + Math.sin(t * 0.27) * 0.04
     g.rotation.y += (ry - g.rotation.y) * k
     g.rotation.x += (rx - g.rotation.x) * k
-    g.position.y = Math.sin(t * 0.8) * 0.05
   })
 
   return (
@@ -53,15 +70,18 @@ function LogoMesh({ reduced }: { reduced: boolean }) {
       <group ref={group}>
         <mesh geometry={geometry}>
           <meshPhysicalMaterial
-            color="#f4f4f2"
+            color={desktop ? '#B6FC46' : '#f4f4f2'}
             metalness={1}
-            roughness={0.13}
-            iridescence={0.55}
+            roughness={desktop ? 0.16 : 0.13}
+            iridescence={desktop ? 0 : 0.55}
+            // лаймовый хром: собственное слабое свечение держит цвет в тенях, тон-маппинг не выбеливает его
+            emissive={desktop ? '#B6FC46' : '#000000'}
+            emissiveIntensity={desktop ? 0.07 : 0}
             iridescenceIOR={1.6}
             iridescenceThicknessRange={[180, 820]}
             clearcoat={0.5}
             clearcoatRoughness={0.1}
-            envMapIntensity={1.35}
+            envMapIntensity={desktop ? 0.95 : 1.35}
           />
         </mesh>
       </group>
@@ -73,7 +93,7 @@ function LogoMesh({ reduced }: { reduced: boolean }) {
  * 3D-логотип для hero. Студия для отражений собрана из Lightformer (без внешних HDR):
  * белые полосы-софтбоксы, холодная полоса и один лаймовый софтбокс.
  */
-export default function Logo3D({ active, reduced, touch, onReady }: Props) {
+export default function Logo3D({ variant, active, reduced, touch, onReady }: Props) {
   useEffect(() => {
     if (reduced || touch) return
     const onMove = (e: PointerEvent) => {
@@ -107,7 +127,7 @@ export default function Logo3D({ active, reduced, touch, onReady }: Props) {
         <Lightformer form="rect" intensity={2.4} color="#B6FC46" position={[4.5, -2.2, 2.5]} rotation-y={-Math.PI / 3} scale={[3.5, 3.5, 1]} />
         <Lightformer form="rect" intensity={1.5} position={[0, -3.5, -3]} rotation-x={-Math.PI / 2} scale={[12, 1, 1]} />
       </Environment>
-      <LogoMesh reduced={reduced} />
+      <LogoMesh variant={variant} reduced={reduced} touch={touch} />
     </Canvas>
   )
 }
