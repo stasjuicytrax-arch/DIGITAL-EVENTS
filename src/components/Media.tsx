@@ -19,8 +19,10 @@ type Props = {
 
 /** Фото из public/media: AVIF + WebP srcset 640/1280/1920, blur-плейсхолдер, lazy (TZ §9, §10.1). */
 export function Media({ id, alt, sizes = '100vw', priority, className, imgClassName, ...img }: Props) {
-  const m = all[id]
-  if (!m) return null
+  const e = all[id]
+  if (!e) return null
+  // пути в media.json от корня сайта; на GitHub Pages сайт лежит в подпапке (BASE_URL)
+  const m = { ...e, src: import.meta.env.BASE_URL.replace(/\/$/, '') + e.src }
   const set = (fmt: string) => m.widths.map((w) => `${m.src}-${w}.${fmt} ${w}w`).join(', ')
   return (
     <picture className={cn('block overflow-hidden', className)} style={{ backgroundImage: `url(${m.blur})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>

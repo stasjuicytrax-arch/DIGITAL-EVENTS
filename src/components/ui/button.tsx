@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import { useMagnetic } from '@/lib/magnetic'
 
 /*
  * Кнопки DESIGN.md §9:
- *  primary — лаймовая пилюля, справа круг с ↗ (на hover поворот 45° и заливка ink), magnetic
+ *  primary — лаймовая пилюля, справа круг с ↗ (на hover поворот 45° и заливка ink)
  *  glass   — liquid glass пилюля поверх фото и 3D
  *  ghost   — рамка line-strong, на hover заливка white «вытекает» из точки курсора
  *  link    — подчёркивание 1px, на hover линия уезжает вправо и возвращается слева
@@ -41,7 +40,6 @@ type Common = VariantProps<typeof buttonVariants> & {
   className?: string
   /** круг со стрелкой ↗ справа (по умолчанию у primary и glass) */
   arrow?: boolean
-  magnetic?: boolean
 }
 type AsLink = Common & { href: string } & Omit<ComponentPropsWithoutRef<'a'>, 'href' | 'className' | 'children'>
 type AsButton = Common & { href?: undefined } & Omit<ComponentPropsWithoutRef<'button'>, 'className' | 'children'>
@@ -71,12 +69,10 @@ const trackFill = (e: PointerEvent<HTMLElement>) => {
   e.currentTarget.style.setProperty('--fy', `${e.clientY - r.top}px`)
 }
 
-export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(props, _ref) {
-  const { variant = 'primary', size = 'default', arrow, magnetic, className, children, ...rest } = props
+export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(props, ref) {
+  const { variant = 'primary', size = 'default', arrow, className, children, ...rest } = props
   const withArrow = arrow ?? (variant === 'primary' || variant === 'glass')
-  const mag = useMagnetic<HTMLElement>(80, 0.3)
   const cls = cn(buttonVariants({ variant, size }), !withArrow && variant !== 'link' && 'pr-6', className)
-  const magRef = (magnetic ?? variant === 'primary') ? mag : undefined
   const content = (
     <>
       <span className="relative z-[1]">{children}</span>
@@ -88,9 +84,9 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(props
   if ('href' in rest && rest.href !== undefined) {
     const { href, ...a } = rest as AsLink
     const internal = href.startsWith('/') && !href.startsWith('//')
-    if (internal) return <Link ref={magRef as never} to={href} className={cls} {...ghost} {...a}>{content}</Link>
-    return <a ref={magRef as never} href={href} className={cls} {...ghost} {...a}>{content}</a>
+    if (internal) return <Link ref={ref as never} to={href} className={cls} {...ghost} {...a}>{content}</Link>
+    return <a ref={ref as never} href={href} className={cls} {...ghost} {...a}>{content}</a>
   }
   const b = rest as AsButton
-  return <button ref={magRef as never} type={b.type ?? 'button'} className={cls} {...ghost} {...b}>{content}</button>
+  return <button ref={ref as never} type={b.type ?? 'button'} className={cls} {...ghost} {...b}>{content}</button>
 })

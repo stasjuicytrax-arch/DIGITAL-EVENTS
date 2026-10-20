@@ -2,4 +2,4 @@ import { ViteReactSSG } from 'vite-react-ssg'
 import { routes } from './routes'
 import './styles/globals.css'
 
-export const createRoot = ViteReactSSG({ routes })
+export const createRoot = ViteReactSSG({ routes, basename: import.meta.env.BASE_URL })
