@@ -13,7 +13,7 @@ import { Footer } from '@/sections/Footer'
 
 /** Новая страница открывается сверху; переход по якорю (#…) и «назад/вперёд» не трогаем */
 function useScrollToTop() {
-  const { pathname, hash } = useLocation()
+  const { pathname, hash, key } = useLocation()
   const type = useNavigationType()
   // на сервере useLayoutEffect не нужен (и ругается) — там скролла нет
   const useIso = typeof window === 'undefined' ? useEffect : useLayoutEffect
@@ -22,7 +22,7 @@ function useScrollToTop() {
     getLenis()?.scrollTo(0, { immediate: true, force: true })
     window.scrollTo(0, 0)
     requestAnimationFrame(() => ScrollTrigger.refresh())
-  }, [pathname])
+  }, [pathname, key]) // key: клик по ссылке на ту же страницу тоже поднимает наверх
 }
 
 export function Layout() {

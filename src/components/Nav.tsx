@@ -86,6 +86,7 @@ function OverlayLink({ to, label, index, onClick, children }: { to: string; labe
       >
       <NavLink
         to={to}
+        end={to === "/"}
         onClick={onClick}
         onPointerEnter={run}
         onFocus={run}
@@ -272,7 +273,7 @@ export function Nav() {
                   </button>
                 </div>
               ) : (
-                <NavLink key={l.to} to={l.to} tabIndex={off} style={{ '--i': i } as CSSProperties} className={({ isActive }) => cn('nav-item rounded-pill px-4 py-2 text-small hover:text-white', isActive ? 'text-white' : 'text-mute-2')}>
+                <NavLink key={l.to} to={l.to} end={l.to === "/"} tabIndex={off} style={{ '--i': i } as CSSProperties} className={({ isActive }) => cn('nav-item rounded-pill px-4 py-2 text-small hover:text-white', isActive ? 'text-white' : 'text-mute-2')}>
                   {l.label}
                 </NavLink>
               ),
