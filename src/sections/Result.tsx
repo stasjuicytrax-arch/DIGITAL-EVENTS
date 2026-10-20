@@ -15,11 +15,10 @@ export function Result() {
 
   return (
     <section aria-labelledby="result-title" className="relative isolate overflow-hidden bg-graphite bg-[linear-gradient(to_bottom,var(--de-void),var(--de-graphite)_240px)]">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,#000_240px,#000_calc(100%-240px),transparent)]">
-        <CodeBackground keepOut={title} />
-        {/* виньетка по бокам, чтобы canvas не «обрезался» (DESIGN §7.5) */}
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--de-graphite),transparent_14%,transparent_86%,var(--de-graphite))]" />
-      </div>
+      {/* canvas слушает мышь на секции (родителе), поэтому лежит прямо в ней; маска растворяет сетку у краёв */}
+      <CodeBackground keepOut={title} className="[mask-image:linear-gradient(to_bottom,transparent,#000_240px,#000_calc(100%-240px),transparent)]" />
+      {/* виньетка по бокам, чтобы canvas не «обрезался» (DESIGN §7.5) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--de-graphite),transparent_14%,transparent_86%,var(--de-graphite))] [mask-image:linear-gradient(to_bottom,transparent,#000_240px,#000_calc(100%-240px),transparent)]" />
 
       <div className="relative px-margin pb-section pt-24 md:pt-32">
         <SectionLabel index={result.index}>{result.label}</SectionLabel>
