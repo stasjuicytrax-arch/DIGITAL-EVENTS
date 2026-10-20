@@ -24,7 +24,14 @@ export function HeroLogo({ className }: { className?: string }) {
   const touch = useIsTouch()
   const [mounted, setMounted] = useState(false)
   const [ready, setReady] = useState(false)
-  useEffect(() => setMounted(hasWebGL()), [])
+  useEffect(() => {
+    // по решению заказчика 3D-логотип показывается только на телефонах и планшетах (< 1024px)
+    const mq = window.matchMedia('(max-width: 1023px)')
+    const update = () => setMounted(mq.matches && hasWebGL())
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   return (
     <div ref={ref} className={cn('pointer-events-none', className)} data-cursor="aim">
