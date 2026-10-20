@@ -24,6 +24,14 @@ export const servicePage = {
   stripCta: { label: 'Обсудить задачу', to: '/contacts' },
   othersTitle: 'Другие направления',
   photoAlt: (title: string, n: number) => `${title} — фото ${n}`,
+  // HUD-строка hero: «[01 / 10] НАПРАВЛЕНИЕ · 09 ПОЗИЦИЙ · ПЕРМЬ»
+  hudKind: 'Направление',
+  hudItemKind: 'Позиция',
+  chipsLabel: 'Позиции направления',
+  frames: 'Кадр',
+  galleryHint: 'Листайте — лента едет вбок',
+  // техтребования карточкой: короткие моно-чипы «3×3×2 М», «220 В», «МОНТАЖ 1,5 Ч»
+  techShort: { 'Время монтажа': 'Монтаж' } as Record<string, string>,
 } as const
 
 export const itemPage = {

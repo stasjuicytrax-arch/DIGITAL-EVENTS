@@ -6,7 +6,7 @@ import { media as t } from '@/content/pages'
 import { getLenis } from '@/lib/lenis'
 
 /** Лайтбокс: стрелки, свайп, Esc, счётчик; фокус возвращается на открывшую картинку */
-function Lightbox({ ids, index, alt, onClose, onIndex }: { ids: string[]; index: number; alt: (n: number) => string; onClose: () => void; onIndex: (i: number) => void }) {
+export function Lightbox({ ids, index, alt, onClose, onIndex }: { ids: string[]; index: number; alt: (n: number) => string; onClose: () => void; onIndex: (i: number) => void }) {
   const closeBtn = useRef<HTMLButtonElement>(null)
   const start = useRef<number | null>(null)
   const go = useCallback((d: number) => onIndex((index + d + ids.length) % ids.length), [index, ids.length, onIndex])

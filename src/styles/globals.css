@@ -298,3 +298,37 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 }
 @keyframes map-pulse { from { transform: scale(1); opacity: .8; } to { transform: scale(2.4); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .map-pin::after { animation: none; opacity: 0; } }
+
+/* ── Страницы услуг ─────────────────────────────────────────────── */
+/* Название по буквам: каждая въезжает снизу, шаг 30ms */
+.letter-reveal { display: inline-block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; vertical-align: bottom; }
+.letter-reveal > span { display: inline-block; animation: line-up var(--t-slow) var(--ease-out-expo) both; animation-delay: calc(var(--d, 0) * 30ms + 150ms); }
+/* Слайдшоу hero: медленный Ken Burns на активном кадре, прогресс кадра 6 с */
+.hero-kenburns { animation: ken-burns 7s var(--ease-in-out) both; }
+.hero-progress { width: 100%; transform-origin: left; animation: hero-progress 6s linear both; }
+@keyframes hero-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Bento-карточка: scan-line один раз сверху вниз на наведении, стеклянная панель техтребований выезжает снизу */
+.bento-scan {
+  position: absolute; inset-inline: 0; top: 0; height: 30%; pointer-events: none; opacity: 0;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--de-lime) 18%, transparent) 85%, var(--de-lime) 100%);
+  mask-image: linear-gradient(to bottom, transparent, #000);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bento-card:hover .bento-scan { animation: bento-scan 900ms var(--ease-in-out) 1 both; }
+  .bento-card .bento-tech { opacity: 0; translate: 0 16px; transition: opacity var(--t-fast) var(--ease-soft), translate var(--t-base) var(--ease-out-expo); }
+  .bento-card:hover .bento-tech, .bento-card:focus-visible .bento-tech { opacity: 1; translate: 0 0; }
+}
+@keyframes bento-scan { 0% { opacity: 1; transform: translateY(-100%); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateY(340%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .letter-reveal > span { animation: fade-in 200ms ease-out both; }
+  .hero-kenburns, .bento-card:hover .bento-scan { animation: none; }
+}
+
+/* Индекс каталога: на наведении остальные строки гаснут до --de-mute */
+.index-list .index-row { color: var(--de-white); transition: color var(--t-base) var(--ease-soft); }
+.index-list:has(.index-row:hover) .index-row:not(:hover) { color: var(--de-mute); }
+/* WebGL-превью за курсором: появление масштабом и прозрачностью */
+.index-preview { opacity: 0; scale: .86; transition: opacity var(--t-base) var(--ease-out-expo), scale var(--t-base) var(--ease-out-expo); will-change: transform; }
+.index-preview[data-visible="true"] { opacity: 1; scale: 1; }

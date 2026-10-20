@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
 import { isBrowser } from './utils'
 
-function useMedia(query: string, ssrValue = false) {
+export function useMedia(query: string, ssrValue = false) {
   const [matches, setMatches] = useState(ssrValue)
   useEffect(() => {
     const mql = window.matchMedia(query)
