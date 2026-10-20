@@ -5,7 +5,6 @@ import { SectionLabel } from '@/components/SectionLabel'
 import { Media } from '@/components/Media'
 import { Asterisk } from '@/components/icons/Asterisk'
 import { Button } from '@/components/ui/button'
-import { HeroLogo } from '@/components/logo/HeroLogo'
 import { isTouchDevice } from '@/lib/hooks'
 import { cn } from '@/lib/utils'
 
@@ -60,7 +59,6 @@ export function Hero() {
 
         {/* зона скульптуры: на широких экранах справа лид и кнопки, слева снизу — плашка */}
         <div className="relative min-h-[38svh] flex-1 px-6 md:px-12">
-          <HeroLogo className="absolute inset-0" />
           <Lead className="absolute right-12 top-1/2 hidden w-[min(28rem,32vw)] -translate-y-1/2 xl:block" />
           <p className="glass fade-up absolute bottom-6 left-12 hidden max-w-[24ch] items-start gap-3 rounded-md p-4 text-small text-white md:flex" style={d(4)}>
             <Asterisk className="mt-1 size-3.5 shrink-0 text-lime" />
