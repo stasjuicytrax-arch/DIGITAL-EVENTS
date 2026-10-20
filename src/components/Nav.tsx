@@ -1,13 +1,12 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { nav } from '@/content/nav'
 import { catalog } from '@/content/catalog'
 import { site } from '@/content/site'
 import { LogoMark } from '@/components/logo/LogoMark'
 import { Button } from '@/components/ui/button'
-import { onProgress } from '@/lib/progress'
 import { getLenis } from '@/lib/lenis'
 import { useScramble } from '@/lib/scramble'
 import { cn } from '@/lib/utils'
@@ -23,11 +22,12 @@ function Logo({ className }: { className?: string }) {
   )
 }
 
-function Burger({ open, onClick, controls }: { open: boolean; onClick: () => void; controls: string }) {
+function Burger({ open, onClick, controls, tabIndex }: { open: boolean; onClick: () => void; controls: string; tabIndex?: number }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      tabIndex={tabIndex}
       aria-expanded={open}
       aria-controls={controls}
       aria-label={open ? nav.menuClose : nav.menuOpen}
@@ -131,29 +131,74 @@ function Overlay({ id, onClose }: { id: string; onClose: () => void }) {
   )
 }
 
+// гистерезис сжатия: вниз на 80px — сжать, вверх на 40px — раскрыть
+const DOWN = 80
+const UP = 40
+
+/** Скролл из Lenis (или нативный), обработка раз в кадр; state меняется только при смене состояния */
+function useCompactOnScroll() {
+  const [compact, setCompact] = useState(false)
+  useEffect(() => {
+    let last = window.scrollY, acc = 0, state = false, raf = 0
+    const check = () => {
+      raf = 0
+      const y = window.scrollY
+      const dy = y - last
+      last = y
+      if (!dy) return
+      // путь копится в одном направлении, смена направления начинает отсчёт заново
+      acc = Math.sign(dy) === Math.sign(acc) ? acc + dy : dy
+      let next = state
+      if (y < DOWN) next = false
+      else if (acc >= DOWN) next = true
+      else if (acc <= -UP) next = false
+      if (next !== state) { state = next; setCompact(next) }
+    }
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(check) }
+    const lenis = getLenis()
+    let off: () => void
+    if (lenis) off = lenis.on('scroll', onScroll)
+    else {
+      window.addEventListener('scroll', onScroll, { passive: true })
+      off = () => window.removeEventListener('scroll', onScroll)
+    }
+    return () => { off(); cancelAnimationFrame(raf) }
+  }, [])
+  return compact
+}
+
 /**
  * Навбар DESIGN.md §9: фиксированная пилюля liquid glass по центру сверху.
  * Скролл вниз — сжимается до лого + бургер, вверх — раскрывается. На мобиле всегда лого + бургер,
  * меню — полноэкранный оверлей с пунктами display-xl и glyph-scramble.
+ * Сжатие без перерасчёта раскладки (FLIP): пилюля держит полную ширину, стеклянная подложка — отдельный
+ * абсолютный слой (backdrop-filter не анимируется), пилюля сдвигается transform'ом к центру, пункты гаснут
+ * opacity + сдвиг со stagger 30ms, бургер подъезжает к лого. Одна CSS-анимация 450ms, ease-out-expo.
  */
 export function Nav() {
-  const [compact, setCompact] = useState(false)
+  const compact = useCompactOnScroll()
   const [menu, setMenu] = useState(false)
   const [mega, setMega] = useState(false)
   const megaId = useId(), menuId = useId()
   const { pathname } = useLocation()
-  const reduce = useReducedMotion()
   const wrap = useRef<HTMLDivElement>(null)
+  const logo = useRef<HTMLDivElement>(null)
+  const burger = useRef<HTMLDivElement>(null)
+  const [geo, setGeo] = useState({ cut: 0, dx: 0 })
 
-  // сжатие по направлению скролла
-  useEffect(() => {
-    let last = 0
-    return onProgress(() => {
-      const y = window.scrollY
-      if (Math.abs(y - last) < 6) return
-      setCompact(y > 160 && y > last)
-      last = y
-    })
+  // геометрия сжатого состояния: сколько ширины убрать у подложки и на сколько подвинуть бургер к лого
+  useLayoutEffect(() => {
+    const measure = () => {
+      const w = wrap.current, l = logo.current, b = burger.current
+      if (!w || !l || !b) return
+      const logoEnd = l.offsetLeft + l.offsetWidth + 8
+      const compactW = logoEnd + b.offsetWidth + 8
+      setGeo({ cut: Math.max(0, w.offsetWidth - compactW), dx: Math.max(0, b.offsetLeft - logoEnd) })
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    if (wrap.current) ro.observe(wrap.current)
+    return () => ro.disconnect()
   }, [])
 
   // закрытие при смене страницы, Escape и клике снаружи
@@ -173,66 +218,55 @@ export function Nav() {
   useEffect(() => { if (compact) setMega(false) }, [compact])
 
   const expanded = !compact && !menu
+  const vars = { '--cut': `${geo.cut}px`, '--dx': `${geo.dx}px` } as CSSProperties
+  const off = expanded ? undefined : -1
 
   return (
     <>
       <header className="pointer-events-none fixed inset-x-0 top-4 z-40 flex justify-center px-margin">
-        <motion.div
+        <div
           ref={wrap}
-          layout={!reduce}
-          transition={{ layout: { duration: 0.6, ease: EXPO } }}
-          className="glass glass-nav pointer-events-auto relative flex h-16 items-center gap-2 rounded-pill pl-6 pr-2"
-          style={{ borderRadius: 999 }}
+          data-compact={!expanded || undefined}
+          style={vars}
+          className="nav-pill pointer-events-auto relative flex h-16 items-center gap-2 rounded-pill pl-6 pr-2"
         >
-          <motion.div layout="position"><Logo /></motion.div>
+          <div aria-hidden="true" className="nav-glass glass glass-nav absolute inset-0 rounded-pill" />
+          <div ref={logo} className="relative"><Logo /></div>
 
-          <AnimatePresence initial={false}>
-            {expanded && (
-              <motion.nav
-                key="links"
-                aria-label="Основное меню"
-                initial={{ opacity: 0, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, filter: 'blur(4px)', transition: { duration: 0.15 } }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="ml-8 hidden items-center gap-1 lg:flex"
-              >
-                {nav.links.map((l) =>
-                  'mega' in l && l.mega ? (
-                    <button
-                      key={l.to}
-                      type="button"
-                      aria-expanded={mega}
-                      aria-controls={megaId}
-                      onClick={() => setMega((v) => !v)}
-                      className={cn('rounded-pill px-4 py-2 text-small transition-colors duration-(--t-fast) ease-soft hover:text-white', mega || pathname.startsWith('/uslugi') && pathname !== '/uslugi/videogames' ? 'text-white' : 'text-mute-2')}
-                    >
-                      {l.label}
-                    </button>
-                  ) : (
-                    <NavLink key={l.to} to={l.to} className={({ isActive }) => cn('rounded-pill px-4 py-2 text-small transition-colors duration-(--t-fast) ease-soft hover:text-white', isActive ? 'text-white' : 'text-mute-2')}>
-                      {l.label}
-                    </NavLink>
-                  ),
-                )}
-              </motion.nav>
+          <nav aria-label="Основное меню" aria-hidden={!expanded || undefined} className="relative ml-8 hidden items-center gap-1 lg:flex">
+            {nav.links.map((l, i) =>
+              'mega' in l && l.mega ? (
+                <button
+                  key={l.to}
+                  type="button"
+                  tabIndex={off}
+                  style={{ '--i': i } as CSSProperties}
+                  aria-expanded={mega}
+                  aria-controls={megaId}
+                  onClick={() => setMega((v) => !v)}
+                  className={cn('nav-item rounded-pill px-4 py-2 text-small hover:text-white', mega || pathname.startsWith('/uslugi') && pathname !== '/uslugi/videogames' ? 'text-white' : 'text-mute-2')}
+                >
+                  {l.label}
+                </button>
+              ) : (
+                <NavLink key={l.to} to={l.to} tabIndex={off} style={{ '--i': i } as CSSProperties} className={({ isActive }) => cn('nav-item rounded-pill px-4 py-2 text-small hover:text-white', isActive ? 'text-white' : 'text-mute-2')}>
+                  {l.label}
+                </NavLink>
+              ),
             )}
-          </AnimatePresence>
+          </nav>
 
-          <AnimatePresence initial={false}>
-            {expanded && (
-              <motion.div key="cta" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.15 } }} transition={{ delay: 0.2 }} className="ml-6 hidden lg:block">
-                <Button href={nav.cta.to} size="compact">{nav.cta.label}</Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div aria-hidden={!expanded || undefined} className="nav-item relative ml-6 hidden lg:block" style={{ '--i': nav.links.length } as CSSProperties}>
+            <Button href={nav.cta.to} size="compact" tabIndex={off}>{nav.cta.label}</Button>
+          </div>
 
-          <motion.div layout="position" className={cn('ml-2', expanded && 'lg:hidden')}>
+          {/* на десктопе бургер лежит у правого края под CTA и появляется только в сжатом состоянии */}
+          <div ref={burger} className="nav-burger relative ml-2 lg:absolute lg:right-2 lg:top-2.5 lg:ml-0">
             <Burger open={menu} onClick={() => setMenu((v) => !v)} controls={menuId} />
-          </motion.div>
+          </div>
 
           <AnimatePresence>{mega && expanded && <MegaMenu id={megaId} onClose={() => setMega(false)} />}</AnimatePresence>
-        </motion.div>
+        </div>
       </header>
       <AnimatePresence>{menu && <Overlay id={menuId} onClose={() => setMenu(false)} />}</AnimatePresence>
     </>

@@ -149,6 +149,26 @@
 /* Навбар: чуть темнее, чтобы лого читалось над светлыми фото */
 .glass.glass-nav, .glass-svg .glass.glass-nav { background: color-mix(in srgb, var(--de-void) 40%, transparent); }
 
+/* Сжатие навбара (desktop): одна анимация 450ms — transform пилюли, ширина абсолютной подложки
+   (без влияния на раскладку), opacity + сдвиг пунктов со stagger 30ms. backdrop-filter не меняется */
+@media (width >= 1024px) {
+  .nav-pill { transition: transform 450ms var(--ease-out-expo); }
+  .nav-glass { right: 0; transition: right 450ms var(--ease-out-expo); }
+  .nav-item {
+    transition: color var(--t-fast) var(--ease-soft), opacity 300ms var(--ease-out-expo), translate 450ms var(--ease-out-expo);
+    transition-delay: 0s, calc(var(--i, 0) * 30ms + 120ms), calc(var(--i, 0) * 30ms + 60ms);
+  }
+  .nav-burger { opacity: 0; pointer-events: none; transition: opacity 250ms var(--ease-out-expo), transform 450ms var(--ease-out-expo); }
+
+  .nav-pill[data-compact] { transform: translateX(calc(var(--cut) / 2)); }
+  .nav-pill[data-compact] .nav-glass { right: var(--cut); }
+  .nav-pill[data-compact] .nav-item { opacity: 0; translate: 0 -6px; pointer-events: none; transition-delay: 0s, calc(var(--i, 0) * 30ms), calc(var(--i, 0) * 30ms); }
+  .nav-pill[data-compact] .nav-burger { opacity: 1; pointer-events: auto; transform: translateX(calc(-1 * var(--dx))); transition-delay: 120ms, 0s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill, .nav-glass, .nav-item, .nav-burger { transition-duration: 1ms !important; transition-delay: 0s !important; }
+}
+
 /* Ghost: заливка white «вытекает» из точки входа курсора */
 .btn-ghost {
   overflow: hidden;

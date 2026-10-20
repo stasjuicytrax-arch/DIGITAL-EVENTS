@@ -22,7 +22,7 @@ const QUERY: Record<LogoVariant, string> = { mobile: '(max-width: 1023px)', desk
 /**
  * Hero: 3D-логотип (three.js / R3F). Пока чанк грузится, без WebGL и на сервере — плоский SVG-знак
  * на том же месте. Рендер на паузе вне экрана; при reduced-motion — статичный кадр.
- * mobile — белый хром над заголовком; desktop — лаймовый хром за текстом, справа от центра, следует за курсором.
+ * mobile — белый хром над заголовком; desktop — лаймовый хром за текстом, по центру, следует за курсором.
  */
 export function HeroLogo({ variant, className }: { variant: LogoVariant; className?: string }) {
   const [ref, inView] = useInView<HTMLDivElement>('200px')
@@ -44,11 +44,11 @@ export function HeroLogo({ variant, className }: { variant: LogoVariant; classNa
       <div
         className={cn(
           'absolute inset-0 grid place-items-center transition-opacity duration-(--t-slow) ease-soft',
-          variant === 'desktop' && 'justify-items-end pr-[24%]',
+          
           ready && 'opacity-0',
         )}
       >
-        <LogoMark className={cn(variant === 'desktop' ? 'h-[64%] text-lime/10' : 'h-[62%] max-h-80 text-white/10')} />
+        <LogoMark className={cn(variant === 'desktop' ? 'h-[55%] text-lime/10' : 'h-[62%] max-h-80 text-white/10')} />
       </div>
       {mounted && (
         <div className={cn('absolute inset-0 opacity-0 transition-opacity duration-(--t-slow) ease-soft', ready && 'opacity-100')}>

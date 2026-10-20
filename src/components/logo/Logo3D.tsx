@@ -37,10 +37,10 @@ function LogoMesh({ variant, reduced, touch }: { variant: LogoVariant; reduced: 
   useEffect(() => () => geometry.dispose(), [geometry])
 
   const desktop = variant === 'desktop'
-  // desktop: знак справа от центра, ~65% высоты hero (высота знака — 2 единицы); mobile — по центру своей зоны
-  const x = desktop ? viewport.width * 0.12 : 0
+  // desktop: знак строго по центру, ~55% высоты hero (высота знака — 2 единицы); mobile — по центру своей зоны
+  const x = 0
   const scale = desktop
-    ? Math.min((viewport.height * 0.65) / 2, viewport.width / 3.4)
+    ? Math.min((viewport.height * 0.55) / 2, viewport.width / 4)
     : Math.min(1.15, (viewport.height / 3.2) * 1.05, viewport.width / 2.6)
   void size
 
