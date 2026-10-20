@@ -278,3 +278,23 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .grain { animation: none; }
 }
+
+/* HUD-уголки: лаймовые скобки по углам карточки, проявляются на hover/фокусе (контакты, карточки услуг) */
+.hud-corner {
+  position: absolute; width: 14px; height: 14px; pointer-events: none;
+  border-color: var(--de-lime); border-style: solid; border-width: 0;
+  opacity: 0; transition: opacity var(--t-fast) var(--ease-soft), translate var(--t-base) var(--ease-out-expo);
+}
+.hud-corner--tl { top: 8px; left: 8px; border-top-width: 1.5px; border-left-width: 1.5px; translate: 4px 4px; }
+.hud-corner--tr { top: 8px; right: 8px; border-top-width: 1.5px; border-right-width: 1.5px; translate: -4px 4px; }
+.hud-corner--bl { bottom: 8px; left: 8px; border-bottom-width: 1.5px; border-left-width: 1.5px; translate: 4px -4px; }
+.hud-corner--br { bottom: 8px; right: 8px; border-bottom-width: 1.5px; border-right-width: 1.5px; translate: -4px -4px; }
+.hud-card:hover .hud-corner, .hud-card:focus-within .hud-corner { opacity: 1; translate: 0 0; }
+
+/* Метка на карте: лаймовое кольцо расходится от ✱ */
+.map-pin::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  box-shadow: 0 0 0 1px var(--de-lime); animation: map-pulse 2.2s var(--ease-out-expo) infinite;
+}
+@keyframes map-pulse { from { transform: scale(1); opacity: .8; } to { transform: scale(2.4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .map-pin::after { animation: none; opacity: 0; } }
