@@ -9,3 +9,4 @@ push.ps1
 .vite-react-ssg-temp/
 *.tsbuildinfo
 covers-preview.jpg
+screens/
