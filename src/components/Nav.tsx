@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { nav } from '@/content/nav'
 import { catalog } from '@/content/catalog'
 import { site } from '@/content/site'
-import { Asterisk } from '@/components/icons/Asterisk'
+import { LogoMark } from '@/components/logo/LogoMark'
 import { Button } from '@/components/ui/button'
 import { onProgress } from '@/lib/progress'
 import { getLenis } from '@/lib/lenis'
@@ -17,7 +17,7 @@ const EXPO = [0.16, 1, 0.3, 1] as const
 function Logo({ className }: { className?: string }) {
   return (
     <Link to={nav.home.to} aria-label={nav.home.label} className={cn('flex items-center gap-2 font-heading text-[15px] font-semibold uppercase tracking-[-0.02em] text-white', className)}>
-      <Asterisk className="size-4 text-lime" />
+      <LogoMark className="size-5 text-lime" />
       <span>{site.name}</span>
     </Link>
   )
