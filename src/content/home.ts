@@ -7,7 +7,6 @@ export const hero = {
   ctaPrimary: { label: 'Обсудить задачу', to: '/contacts' },
   ctaSecondary: { label: 'Что мы умеем', to: '/#services' },
   /** слово-призрак за скульптурой (TZ §7, референс e6530….jpg) */
-  backdrop: 'DIGITAL',
   /** плашка liquid glass (TZ §5 блок 1): цифр не выдумываем */
   plate: 'Делаем свои продукты сами: от кода до запуска',
   chips: ['DIGITAL-АТТРАКЦИОНЫ', 'AR', '3D-MAPPING', 'ВИДЕОИГРЫ', 'MOTION'],

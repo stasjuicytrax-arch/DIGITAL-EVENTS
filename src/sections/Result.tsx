@@ -45,7 +45,7 @@ export function Result() {
             <p
               key={s}
               className={
-                'glass text-h3 rounded-md px-8 py-6 uppercase text-white transition-transform duration-(--t-base) ease-out-expo hover:rotate-0 hover:scale-[1.03] ' +
+                'glass text-h3 rounded-pill px-8 py-6 uppercase text-white transition-transform duration-(--t-base) ease-out-expo hover:rotate-0 hover:scale-[1.03] ' +
                 (i === 0 ? '-rotate-3 md:translate-y-4' : 'rotate-3 self-end md:self-auto md:-translate-y-4')
               }
             >

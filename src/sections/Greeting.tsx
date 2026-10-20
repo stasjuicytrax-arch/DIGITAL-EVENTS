@@ -37,9 +37,9 @@ export function Greeting() {
   const [section, row] = useVelocityMarquee<HTMLElement>({ speed: 60, skew: true })
 
   return (
-    <section ref={section} aria-label={greeting.label} className="overflow-hidden py-24 md:py-32">
+    <section ref={section} aria-label={greeting.label} className="overflow-hidden py-16 md:py-32">
       <p className="sr-only">{greeting.words.join(', ')}</p>
-      <div aria-hidden="true" className="text-display-xl flex flex-col gap-2 text-white">
+      <div aria-hidden="true" className="text-display-xl greeting-text flex flex-col gap-2 text-white">
         {[false, true].map((outline, i) => (
           <div key={i} className="overflow-hidden py-[0.04em]">
             <div ref={row(i)} className={cn('flex w-max', outline && 'greeting-outline')}>

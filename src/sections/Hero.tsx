@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { hero } from '@/content/home'
 import { Panel } from '@/components/Panel'
 import { SectionLabel } from '@/components/SectionLabel'
-import { Media } from '@/components/Media'
 import { Asterisk } from '@/components/icons/Asterisk'
 import { Button } from '@/components/ui/button'
 import { HeroLogo } from '@/components/logo/HeroLogo'
@@ -25,7 +24,7 @@ function Lead({ className }: { className?: string }) {
 
 /**
  * Блок 1 Hero (TZ §5): панель с линейкой,
- * H1 «ТЕХНОЛОГИИ / [капсула] РАЗВЛЕЧЕНИЙ», лид, CTA, плашка liquid glass, нижняя полоса с чипами,
+ * H1 «ТЕХНОЛОГИИ / РАЗВЛЕЧЕНИЙ» (капсула и слово-призрак убраны по правкам заказчика), лид, CTA, плашка liquid glass, нижняя полоса с чипами,
  * SCROLL и координатами курсора. Скульптура из частиц убрана по решению заказчика (20.10.2026).
  */
 export function Hero() {
@@ -49,11 +48,6 @@ export function Hero() {
   return (
     <Panel as="section" aria-labelledby="hero-title" className="pt-24" innerClassName="isolate flex min-h-[calc(100svh-10rem)] flex-col">
       <div ref={panel} className="relative flex flex-1 flex-col">
-        {/* слово-призрак (TZ §7) */}
-        <p aria-hidden="true" className="text-display-xxl pointer-events-none absolute inset-x-0 top-[34%] -translate-y-1/2 select-none text-center text-white/[0.04] md:top-[40%] md:scale-[1.6]">
-          {hero.backdrop}
-        </p>
-
         <div className="relative p-6 md:p-12">
           <SectionLabel className="fade-up">{hero.label}</SectionLabel>
         </div>
@@ -72,12 +66,7 @@ export function Hero() {
           <h1 id="hero-title" className="text-display-xl">
             <span className="reveal-line"><span className="text-white">{hero.titleTop}</span></span>
             <span className="reveal-line" style={d(1)}>
-              <span className="text-mute md:whitespace-nowrap">
-                <span className="capsule mr-[0.14em]" aria-hidden="true">
-                  <Media id="videophoto/lazernyy-koridor-01" alt="" sizes="20vw" priority className="size-full" />
-                </span>
-                {hero.titleBottom}
-              </span>
+              <span className="text-mute md:whitespace-nowrap">{hero.titleBottom}</span>
             </span>
           </h1>
           <Lead className="mt-8 md:ml-auto md:max-w-[min(32rem,50%)] xl:hidden" />
