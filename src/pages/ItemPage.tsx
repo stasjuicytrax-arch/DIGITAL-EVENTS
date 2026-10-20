@@ -13,6 +13,7 @@ import { ServiceHero } from '@/components/services/ServiceHero'
 import { BentoCard } from '@/components/services/BentoItems'
 import { FilmGallery } from '@/components/services/FilmGallery'
 import { pad2 } from '@/lib/tech'
+import { CtaBanner } from '@/components/CtaBanner'
 import { Component as NotFound } from './NotFound'
 
 /**
@@ -123,6 +124,8 @@ export function Component() {
           </ul>
         </section>
       )}
+
+      <CtaBanner service={d.title} className="mt-24 md:mt-32" />
 
       {similar.length > 0 && (
         <section aria-labelledby="similar-title" className="px-margin pt-24 md:pt-32">

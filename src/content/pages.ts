@@ -54,6 +54,17 @@ export const media = {
   play: 'Смотреть видео',
 } as const
 
+/** CTA-баннер (src/components/CtaBanner.tsx): страницы услуг, позиций, каталог, портфолио, о нас */
+export const ctaBanner = {
+  titleTop: 'Обсудим',
+  titleBottom: 'ваше событие?',
+  ring: 'Обсудить задачу ✱ Ответим за рабочий день ✱ ',
+  button: 'Обсудить задачу',
+  to: '/contacts',
+  reply: 'Ответ в течение рабочего дня',
+  tz: 'UTC+5',
+} as const
+
 /** Страница ошибки маршрута (src/pages/RouteError.tsx) */
 export const errorPage = {
   label: '[Ошибка]',

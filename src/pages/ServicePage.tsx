@@ -9,13 +9,13 @@ import { Paragraphs } from '@/components/Paragraphs'
 import { SectionLabel } from '@/components/SectionLabel'
 import { DirectionCard } from '@/components/Cards'
 import { LiteYouTube } from '@/components/LiteYouTube'
-import { Panel } from '@/components/Panel'
 import { Button } from '@/components/ui/button'
 import { ServiceHero } from '@/components/services/ServiceHero'
 import { BentoCard, BentoItems } from '@/components/services/BentoItems'
 import { FilmGallery, type Frame } from '@/components/services/FilmGallery'
 import { getLenis } from '@/lib/lenis'
 import { pad2 } from '@/lib/tech'
+import { CtaBanner } from '@/components/CtaBanner'
 import { Component as NotFound } from './NotFound'
 
 const uniq = (ids: (string | undefined)[]) => [...new Set(ids.filter(Boolean) as string[])]
@@ -172,10 +172,7 @@ export function Component() {
         </section>
       )}
 
-      <Panel as="section" className="mt-24 md:mt-32" ruler={false} innerClassName="flex flex-col gap-8 p-6 md:flex-row md:items-center md:justify-between md:p-12">
-        <h2 className="text-h2">{t.stripTitle}</h2>
-        <Button href={t.stripCta.to}>{t.stripCta.label}</Button>
-      </Panel>
+      <CtaBanner service={d.title} className="mt-24 md:mt-32" />
 
       <section aria-labelledby="others-title" className="pt-24 md:pt-32">
         <div className="px-margin"><SectionLabel>{t.othersTitle}</SectionLabel></div>

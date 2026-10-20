@@ -3,9 +3,8 @@ import { aboutPage as t } from '@/content/company'
 import { site } from '@/content/site'
 import { getMedia, Media } from '@/components/Media'
 import { SectionLabel } from '@/components/SectionLabel'
-import { Panel } from '@/components/Panel'
-import { Button } from '@/components/ui/button'
 import { Clients } from '@/sections/Clients'
+import { CtaBanner } from '@/components/CtaBanner'
 import { useParallax } from '@/lib/motion'
 
 const TEAM = { main: 'about/about-01', side: 'about/about-04' }
@@ -71,10 +70,7 @@ export function Component() {
 
       <div className="pt-section"><Clients text={t.clients} /></div>
 
-      <Panel as="section" className="py-section" ruler={false} innerClassName="flex flex-col gap-8 p-6 md:flex-row md:items-center md:justify-between md:p-12">
-        <h2 className="text-h2">{t.cta.title}</h2>
-        <Button href={t.cta.button.to}>{t.cta.button.label}</Button>
-      </Panel>
+      <CtaBanner className="py-section" />
     </main>
   )
 }

@@ -325,3 +325,13 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 /* WebGL-превью за курсором: появление масштабом и прозрачностью */
 .index-preview { opacity: 0; scale: .86; transition: opacity var(--t-base) var(--ease-out-expo), scale var(--t-base) var(--ease-out-expo); will-change: transform; }
 .index-preview[data-visible="true"] { opacity: 1; scale: 1; }
+
+/* CTA-баннер: точечная сетка, вокруг курсора подсвечивается лаймом (spotlight ~300px) */
+.cta-dots { background-image: radial-gradient(circle at center, var(--de-line-strong) 1px, transparent 1.6px); background-size: 16px 16px; }
+.cta-dots--lit {
+  background-image: radial-gradient(circle at center, var(--de-lime) 1.2px, transparent 1.8px);
+  mask-image: radial-gradient(300px circle at var(--sx, -999px) var(--sy, -999px), #000, transparent 70%);
+}
+/* line-reveal заголовка запускается, когда баннер доехал до экрана */
+.cta-title:not([data-in]) .reveal-line > span { animation: none; transform: translateY(105%); }
+@media (prefers-reduced-motion: reduce) { .cta-title:not([data-in]) .reveal-line > span { transform: none; } }

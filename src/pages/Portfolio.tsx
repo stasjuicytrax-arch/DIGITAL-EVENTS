@@ -7,8 +7,7 @@ import { site } from '@/content/site'
 import { getMedia, Media } from '@/components/Media'
 import { SectionLabel } from '@/components/SectionLabel'
 import { Gallery } from '@/components/Gallery'
-import { Panel } from '@/components/Panel'
-import { Button } from '@/components/ui/button'
+import { CtaBanner } from '@/components/CtaBanner'
 import { cn } from '@/lib/utils'
 
 function CaseBlock({ c, n }: { c: Case; n: number }) {
@@ -125,10 +124,7 @@ export function Component() {
         </section>
       ))}
 
-      <Panel as="section" className="mt-section" ruler={false} innerClassName="flex flex-col gap-8 p-6 md:flex-row md:items-center md:justify-between md:p-12">
-        <h2 className="text-h2">{t.cta.title}</h2>
-        <Button href={t.cta.button.to}>{t.cta.button.label}</Button>
-      </Panel>
+      <CtaBanner className="mt-section" />
     </main>
   )
 }

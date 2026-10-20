@@ -10,11 +10,11 @@ import { site } from '@/content/site'
 import { getMedia, Media } from '@/components/Media'
 import { SectionLabel } from '@/components/SectionLabel'
 import { Button } from '@/components/ui/button'
-import { Panel } from '@/components/Panel'
 import { CodeBackground } from '@/components/ui/code-background'
 import { useMedia, useReducedMotion } from '@/lib/hooks'
 import { useScramble } from '@/lib/scramble'
 import { pad2 } from '@/lib/tech'
+import { CtaBanner } from '@/components/CtaBanner'
 import { cn } from '@/lib/utils'
 
 const IndexPreviewGL = lazy(() => import('@/components/services/IndexPreviewGL'))
@@ -147,16 +147,7 @@ export function Component() {
         </Suspense>
       )}
 
-      <Panel as="section" className="mt-24 md:mt-32" ruler={false} innerClassName="grid gap-8 p-6 md:grid-cols-12 md:items-end md:p-12">
-        <h2 className="text-h2 md:col-span-7">{t.helpTitle}</h2>
-        <div className="md:col-span-5">
-          <p className="text-body-l text-mute-2">{t.helpText}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-6">
-            <Button href={t.helpCta.to}>{t.helpCta.label}</Button>
-            <Button variant="link" href={`tel:${site.contacts.phones[0].replace(/[^\d+]/g, '')}`}>{site.contacts.phones[0]}</Button>
-          </div>
-        </div>
-      </Panel>
+      <CtaBanner className="mt-24 md:mt-32" />
     </main>
   )
 }

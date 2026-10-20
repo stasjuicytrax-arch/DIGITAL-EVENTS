@@ -48,6 +48,11 @@ function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'error' | 'done'>('idle')
   const [picked, setPicked] = useState<string[]>([])
   const f = t.form
+  // кнопка CTA-баннера на странице услуги передаёт её название: /contacts?interest=…#form
+  useEffect(() => {
+    const v = new URLSearchParams(window.location.search).get('interest')
+    if (v && catalog.some((c) => c.title === v)) setPicked((p) => (p.includes(v) ? p : [...p, v]))
+  }, [])
   const toggle = (title: string) => setPicked((p) => (p.includes(title) ? p.filter((x) => x !== title) : [...p, title]))
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
