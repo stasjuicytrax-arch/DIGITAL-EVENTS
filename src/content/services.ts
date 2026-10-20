@@ -1459,7 +1459,7 @@ export const directions: Direction[] = [
     ],
     "videos": [],
     "images": [],
-    "cover": "ar/ar-for-events-01"
+    "cover": "ar/ar-for-business-01"
   },
   {
     "slug": "digital-decor",

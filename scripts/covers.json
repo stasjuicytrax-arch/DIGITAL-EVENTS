@@ -36,7 +36,7 @@
     "3d-mapping/stoly": ["3d-mapping-na-stoly-01", "dsc-6768", "dsc-6784"],
     "3d-mapping/avto": ["631da311a6", "89160d9a88", "3d-mapping-na-avto"],
     "ar/ar-for-business": ["img-8313-1", "img-8318", "nlelyyxc4dflmodng18u"],
-    "ar/ar-for-events": ["1-1.jpg", "ar-for-events-03", "ar-for-events-01"],
+    "ar/ar-for-events": ["zodiac-1-1", "ar-for-events-04", "1-1.jpg", "ar-for-events-03", "ar-for-events-01"],
     "digital-decor": ["dsc-4439", "2022-11-28-13-10-27", "dsc-4806"],
     "installations/lyubov-permi": ["photo-2022-12-19-20", "page-0005"]
   },
@@ -49,7 +49,7 @@
   },
   "directionCover": {
     "videogames": "skeyter",
-    "ar": "ar-for-events",
+    "ar": "ar-for-business",
     "new-year": "videogames/begi-ded-begi"
   },
   "noImages": ["new-year"]

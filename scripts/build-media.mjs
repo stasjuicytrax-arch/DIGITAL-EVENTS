@@ -1,6 +1,6 @@
 // Медиа-пайплайн (TZ §10.1): old-site → public/media/<раздел>/<slug>-NN-<ширина>.(avif|webp) + src/content/media.json.
 // Вход: scripts/media-sources.json (фото направлений и позиций из build-content.mjs) + разделы common/ из SECTIONS.
-// Ширины 640 / 1280 / 1920 без апскейла, EXIF снимается, для каждого фото blur-плейсхолдер.
+// Ширины 640 / 1280 / 1920 + нативная ширина исходника, без апскейла; AVIF q64, WebP q84 (чёткость важнее веса), EXIF снимается, для каждого фото blur-плейсхолдер.
 // Уже собранные файлы не пересобираются. Запуск: npm run media.
 import fs from 'node:fs'
 import path from 'node:path'
@@ -46,13 +46,15 @@ async function work() {
       const img = sharp(input, { failOn: 'none' }).rotate()
       const { width, height } = await img.metadata().then((m) => (m.orientation >= 5 ? { width: m.height, height: m.width } : m))
       const widths = WIDTHS.filter((w) => w <= width)
-      if (!widths.length) widths.push(width)
+      // нативная ширина исходника, если она заметно больше последней ступени (1680 → 640/1280/1680):
+      // иначе на широких экранах браузер растягивает 1280 и картинка мылится
+      if (!widths.length || width - widths[widths.length - 1] > 160) widths.push(width)
       const base = `/media/${id}`
       const out = path.join(PUB, id)
       fs.mkdirSync(path.dirname(out), { recursive: true })
       const srcTime = fs.statSync(input).mtimeMs
       for (const w of widths) {
-        for (const [fmt, opts] of [['avif', { quality: 50, effort: 4 }], ['webp', { quality: 76, effort: 5 }]]) {
+        for (const [fmt, opts] of [['avif', { quality: 64, effort: 4 }], ['webp', { quality: 84, effort: 5 }]]) {
           const file = `${out}-${w}.${fmt}`
           if (fs.existsSync(file) && fs.statSync(file).mtimeMs >= srcTime) { skipped++; continue }
           await sharp(input, { failOn: 'none' }).rotate().resize({ width: w, withoutEnlargement: true })[fmt](opts).toFile(file)

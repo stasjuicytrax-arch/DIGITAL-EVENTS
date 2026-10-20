@@ -20,9 +20,16 @@ import { Component as NotFound } from './NotFound'
 
 const uniq = (ids: (string | undefined)[]) => [...new Set(ids.filter(Boolean) as string[])]
 
-/** 4–5 лучших кадров направления для слайдшоу: обложка, фото направления, затем обложки позиций */
+/**
+ * 4–5 кадров для слайдшоу hero на весь экран: только достаточно крупные исходники (≥ 1500px), иначе на широком
+ * экране кадр мылится. Порядок: обложка (если крупная), фото направления, затем фото позиций — по убыванию размера.
+ */
 function heroFrames(d: Direction) {
-  return uniq([d.cover, ...d.images, ...d.items.map((i) => i.images[0])]).slice(0, 5)
+  const pool = uniq([d.cover, ...d.images, ...d.items.flatMap((i) => i.images.slice(0, 2))])
+  const w = (id: string) => getMedia(id)?.w ?? 0
+  const big = pool.filter((id) => w(id) >= 1500)
+  const rest = pool.filter((id) => w(id) < 1500).sort((a, b) => w(b) - w(a))
+  return [...big, ...rest].slice(0, 5)
 }
 
 /** Плёнка: по 2 фото каждой позиции с её названием в подписи + фото направления, не попавшие в hero; не больше 16 */

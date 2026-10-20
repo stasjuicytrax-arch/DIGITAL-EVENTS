@@ -304,7 +304,8 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 .letter-reveal { display: inline-block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; vertical-align: bottom; }
 .letter-reveal > span { display: inline-block; animation: line-up var(--t-slow) var(--ease-out-expo) both; animation-delay: calc(var(--d, 0) * 30ms + 150ms); }
 /* Слайдшоу hero: медленный Ken Burns на активном кадре, прогресс кадра 6 с */
-.hero-kenburns { animation: ken-burns 7s var(--ease-in-out) both; }
+.hero-kenburns { animation: hero-kb 7s var(--ease-in-out) both; }
+@keyframes hero-kb { from { transform: scale(1); } to { transform: scale(1.05); } } /* мягкий зум: сильное увеличение мылит кадр */
 .hero-progress { width: 100%; transform-origin: left; animation: hero-progress 6s linear both; }
 @keyframes hero-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 

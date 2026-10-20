@@ -96,7 +96,7 @@ export const catalog: CatalogEntry[] = [
       "events"
     ],
     "count": 2,
-    "cover": "ar/ar-for-events-01",
+    "cover": "ar/ar-for-business-01",
     "items": [
       "ar-for-business",
       "ar-for-events"
