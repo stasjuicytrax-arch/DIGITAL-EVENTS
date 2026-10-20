@@ -95,6 +95,8 @@
 @utility text-h1 {
   font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
   font-size: clamp(40px, 5.6vw, 96px); line-height: .92; letter-spacing: -.045em;
+  /* длинные русские слова («ПРОГРАММИРОВАНИЕ,») не помещаются в 40px на 375px (предложено к правке DESIGN §2.2) */
+  @media (width < 640px) { font-size: 9.2vw; }
 }
 @utility text-h2 {
   font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
