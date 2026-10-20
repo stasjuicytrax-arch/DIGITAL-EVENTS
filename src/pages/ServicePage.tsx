@@ -103,15 +103,20 @@ export function Component() {
         }
       />
 
+      {/* интро: лейбл слева, первый абзац — крупное утверждение, остальное — обычный текст под ним */}
       {d.text.length > 0 && (
-        <section className="grid grid-cols-4 gap-gutter px-margin pt-24 md:grid-cols-12 md:pt-32">
-          <Paragraphs items={d.text} className="col-span-4 md:col-span-7 md:col-start-6" />
+        <section aria-label={t.aboutTitle} className="grid grid-cols-4 gap-gutter border-b border-line px-margin pb-16 pt-16 md:grid-cols-12 md:pb-24 md:pt-24">
+          <SectionLabel className="col-span-4 self-start md:col-span-3 md:mt-3">{t.aboutTitle}</SectionLabel>
+          <div className="col-span-4 mt-8 md:col-span-9 md:mt-0">
+            {typeof d.text[0] === 'string' && <p className="text-h2 max-w-[24ch] text-white">{d.text[0]}</p>}
+            {d.text.length > 1 && <Paragraphs items={d.text.slice(1)} className="mt-8 md:mt-10 md:max-w-[56ch]" />}
+          </div>
         </section>
       )}
 
       {/* позиции: bento */}
       {(d.items.length > 0 || picks.length > 0) && (
-        <section aria-labelledby="items-title" className="pt-24 md:pt-32">
+        <section aria-labelledby="items-title" className="pt-16 md:pt-24">
           <div className="px-margin">
             <SectionLabel>{picks.length ? t.picksTitle : t.itemsTitle}</SectionLabel>
             <h2 id="items-title" className="sr-only">{picks.length ? t.picksTitle : t.itemsTitle}</h2>

@@ -26,6 +26,7 @@ export const servicePage = {
   photoAlt: (title: string, n: number) => `${title} — фото ${n}`,
   // HUD-строка hero: «[01 / 10] НАПРАВЛЕНИЕ · 09 ПОЗИЦИЙ · ПЕРМЬ»
   hudKind: 'Направление',
+  aboutTitle: 'О направлении',
   hudItemKind: 'Позиция',
   chipsLabel: 'Позиции направления',
   frames: 'Кадр',
