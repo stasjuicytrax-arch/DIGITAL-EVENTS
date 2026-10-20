@@ -46,6 +46,18 @@ export const result = {
   cta: { label: 'Связаться с нами', to: '/#contact' },
 } as const
 
+/** Блок 9: «Так что мы умеем?» (TZ §5). Строки — src/content/catalog.ts */
+export const servicesBlock = {
+  index: '07',
+  label: 'Что мы разрабатываем',
+  titleTop: 'Так что мы',
+  titleBottom: 'умеем?',
+  footnote: '*А умеем мы многое',
+  cta: { label: 'Обсудить проект', to: '/#contact' },
+  all: { label: 'Весь каталог', to: '/uslugi' },
+  open: 'Смотреть направление',
+} as const
+
 /** Блок 8: клиенты (TZ §5). Логотипы — src/content/clients.ts */
 export const clientsBlock = {
   index: '06',
