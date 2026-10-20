@@ -9,7 +9,7 @@ import { Services } from '@/sections/Services'
 // (блок 0 прелоадер и блок 4 лента кадров — ждут промтов data-rain и tilted-grid-hero)
 export function Component() {
   return (
-    <main className="pb-24">
+    <main>
       <Hero />
       <Greeting />
       <Manifest />

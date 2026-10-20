@@ -1,5 +1,6 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import { Layout } from './Layout'
+import { RouteError } from './pages/RouteError'
 import { catalog } from './content/catalog'
 
 export const routes: RouteRecord[] = [
@@ -7,6 +8,8 @@ export const routes: RouteRecord[] = [
     path: '/',
     element: <Layout />,
     entry: 'src/Layout.tsx',
+    // ошибки загрузки чанков и прочие сбои маршрутов — своя страница вместо «Unexpected Application Error»
+    errorElement: <RouteError />,
     children: [
       { index: true, lazy: () => import('./pages/Home') },
       { path: 'uslugi', lazy: () => import('./pages/Catalog') },

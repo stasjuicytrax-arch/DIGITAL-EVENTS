@@ -55,7 +55,7 @@ export function Services() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section id="services" aria-labelledby="services-title" className="py-section">
+    <section id="services" aria-labelledby="services-title" className="pb-24 pt-section md:pb-32">
       <div className="grid grid-cols-4 gap-gutter px-margin md:grid-cols-12">
         <SectionLabel index={servicesBlock.index} className="col-span-4 md:col-span-3">{servicesBlock.label}</SectionLabel>
         <div className="col-span-4 mt-8 md:col-span-9 md:mt-0">

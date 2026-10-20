@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite-react-ssg build",
+    "build": "tsc -b && vite-react-ssg build && node scripts/fallback-404.mjs",
     "preview": "vite preview",
     "content": "node scripts/build-content.mjs",
     "media": "node scripts/build-media.mjs"

@@ -12,5 +12,7 @@ export default defineConfig({
   },
   ssgOptions: {
     dirStyle: 'nested',
+    // маршрут «*» рендерим как /404 — scripts/fallback-404.mjs превращает его в dist/404.html для GitHub Pages
+    includedRoutes: (paths) => [...paths, '/404'],
   },
 })

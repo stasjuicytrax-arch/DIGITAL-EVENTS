@@ -78,7 +78,7 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="px-margin pb-12 pt-section">
+    <footer className="px-margin pb-12 pt-24 md:pt-32">
       <h2 className="sr-only">{site.name}</h2>
       <Wordmark />
       <p className="text-label mt-6 flex items-center gap-2 text-mute-2">
