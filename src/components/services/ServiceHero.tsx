@@ -107,7 +107,7 @@ export function ServiceHero({ title, frames, hud, crumbs, lead, below, cta }: Pr
             <LetterTitle text={title} />
           </div>
           {lead && <p className="text-body-l fade-up col-span-4 mt-6 text-white/80 md:col-span-5" style={{ ['--d' as string]: 3 }}>{lead}</p>}
-          <div className="fade-up col-span-4 mt-6 flex items-end md:col-span-3 md:col-start-10 md:justify-end" style={{ ['--d' as string]: 4 }}>{cta}</div>
+          <div className="fade-up col-span-4 mt-6 flex items-end md:col-span-5 md:col-start-8 md:justify-end" style={{ ['--d' as string]: 4 }}>{cta}</div>
           {below && <div className="fade-up col-span-4 mt-8 md:col-span-9" style={{ ['--d' as string]: 5 }}>{below}</div>}
         </div>
       </div>

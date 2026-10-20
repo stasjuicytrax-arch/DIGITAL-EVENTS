@@ -120,14 +120,12 @@ export function Component() {
 
       {/* индекс направлений */}
       <nav aria-label={t.label}>
-        {desktop ? (
-          <ul className="index-list border-t border-line" onPointerLeave={() => setActive(null)}>
+        <ul className="index-list hidden border-t border-line lg:block" onPointerLeave={() => setActive(null)}>
             {catalog.map((d, i) => (
-              <Row key={d.slug} n={i + 1} slug={d.slug} title={d.title} count={d.count} onEnter={() => setActive(i)} />
+              <Row key={d.slug} n={i + 1} slug={d.slug} title={d.title} count={d.count} onEnter={() => desktop && setActive(i)} />
             ))}
           </ul>
-        ) : (
-          <ul className="border-t border-line">
+          <ul className="border-t border-line lg:hidden">
             {catalog.map((d, i) => (
               <AccordionRow
                 key={d.slug}
@@ -142,7 +140,6 @@ export function Component() {
               />
             ))}
           </ul>
-        )}
       </nav>
       {desktop && gl && (
         <Suspense fallback={null}>

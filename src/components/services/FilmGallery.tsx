@@ -38,7 +38,7 @@ export function FilmGallery({ frames, alt }: { frames: Frame[]; alt: (n: number)
       scrollTrigger: {
         trigger: el,
         start: 'top top',
-        end: () => `+=${distance()}`,
+        end: () => `+=${distance() * 0.6}`,
         pin: true,
         scrub: 0.6,
         invalidateOnRefresh: true,

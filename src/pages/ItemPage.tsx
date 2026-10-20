@@ -53,7 +53,7 @@ export function Component() {
         hud={[`[${pad2(k + 1)} / ${pad2(d.items.length)}]`, servicePage.hudItemKind, group ? group.title : it.tag, site.city]}
         lead={it.lead}
         cta={
-          <div className="flex flex-wrap items-center gap-3 md:justify-end">
+          <div className="flex flex-wrap items-center gap-3 md:flex-nowrap md:justify-end">
             {it.videos.length > 0 && <Button variant="glass" href="#video">{t.watch}</Button>}
             <Button href={t.order.to}>{t.order.label}</Button>
           </div>
