@@ -47,25 +47,31 @@ function MapStrip() {
   const [ready, setReady] = useState(false)
   useEffect(() => { if (inView) setLoad(true) }, [inView])
   return (
-    <section aria-label={t.mapLabel} className="px-margin">
-      <div ref={ref} className="map-strip relative mx-auto h-[220px] max-w-[1200px] overflow-hidden rounded-lg bg-ink-2 shadow-[inset_0_0_0_1px_var(--de-line)] md:h-[320px]">
-        {load && (
-          // карта 1200×320 в натуральную величину по центру полосы; на мобиле (220px) уменьшена пропорционально
-          <div
-            role="img"
-            aria-label={t.mapAlt}
-            className={cn('absolute left-1/2 top-1/2 flex h-[320px] w-[1200px] -translate-x-1/2 -translate-y-1/2 scale-[0.6875] opacity-0 transition-opacity duration-(--t-slow) ease-soft [filter:grayscale(1)_invert(0.92)_contrast(0.9)_brightness(0.85)] md:scale-100', ready && 'opacity-100')}
-          >
-            {MAP_TILES.map((src, i) => (
-              <img key={src} src={src} alt="" width={600} height={320} decoding="async" onLoad={i === 1 ? () => setReady(true) : undefined} className="h-full w-1/2" />
-            ))}
+    <section aria-label={t.mapLabel} className="mx-auto max-w-[880px] px-margin">
+      {/* mobile: карта целиком сверху, плашка с адресом под ней; desktop: плашка поверх карты слева */}
+      <div ref={ref} className="map-strip relative overflow-hidden rounded-lg bg-ink-2 shadow-[inset_0_0_0_1px_var(--de-line)]">
+        <div className="relative h-[260px] overflow-hidden md:h-[320px]">
+          {/* desktop: карта с меткой сдвинута вправо, чтобы точку офиса не закрывала плашка с адресом */}
+          <div className="absolute inset-0 md:translate-x-[180px]">
+          {load && (
+            // карта 1200×320 в натуральную величину по центру полосы; на мобиле (260px) уменьшена пропорционально
+            <div
+              role="img"
+              aria-label={t.mapAlt}
+              className={cn('absolute left-1/2 top-1/2 flex h-[320px] w-[1200px] -translate-x-1/2 -translate-y-1/2 scale-[0.8125] opacity-0 transition-opacity duration-(--t-slow) ease-soft [filter:grayscale(1)_invert(0.92)_contrast(0.9)_brightness(0.85)] md:scale-100', ready && 'opacity-100')}
+            >
+              {MAP_TILES.map((src, i) => (
+                <img key={src} src={src} alt="" width={600} height={320} decoding="async" onLoad={i === 1 ? () => setReady(true) : undefined} className="h-full w-1/2" />
+              ))}
+            </div>
+          )}
+          {/* метка в точке офиса: центр карты, пульсирующее кольцо */}
+          <span aria-hidden="true" className="map-pin absolute left-1/2 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-void/80 shadow-[inset_0_0_0_1px_var(--de-line-strong)]">
+            <Asterisk className="size-5 text-lime" />
+          </span>
           </div>
-        )}
-        {/* метка в точке офиса: центр карты, пульсирующее кольцо */}
-        <span aria-hidden="true" className="map-pin absolute left-1/2 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-void/80 shadow-[inset_0_0_0_1px_var(--de-line-strong)]">
-          <Asterisk className="size-5 text-lime" />
-        </span>
-        <div className="glass absolute inset-x-3 bottom-3 rounded-md p-4 md:inset-x-auto md:bottom-auto md:left-6 md:top-1/2 md:w-[340px] md:-translate-y-1/2 md:p-5">
+        </div>
+        <div className="glass p-5 md:absolute md:left-6 md:top-1/2 md:w-[340px] md:-translate-y-1/2 md:rounded-md">
           <p className="text-label hidden text-mute-2 md:block">{t.addressTitle}</p>
           <p className="text-body-l text-white md:mt-3">{ADDRESS}</p>
           <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 md:mt-4">
