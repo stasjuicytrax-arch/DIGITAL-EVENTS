@@ -8,6 +8,7 @@ import { GlassFilter } from '@/components/ui/liquid-glass'
 import { Nav } from '@/components/Nav'
 import { Cursor } from '@/components/Cursor'
 import { ProgressCounter } from '@/components/ProgressCounter'
+import { Footer } from '@/sections/Footer'
 
 export function Layout() {
   useEffect(() => {
@@ -26,6 +27,7 @@ export function Layout() {
       <GlassFilter />
       <Nav />
       <Outlet />
+      <Footer />
       <ProgressCounter />
       <Cursor />
       <div className="grain" aria-hidden="true" />
