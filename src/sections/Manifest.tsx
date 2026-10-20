@@ -1,38 +1,21 @@
-import { Fragment, useEffect, useRef } from 'react'
+import { Fragment } from 'react'
 import { manifest } from '@/content/home'
 import { SectionLabel } from '@/components/SectionLabel'
 import { Media } from '@/components/Media'
-import { gsap } from '@/lib/gsap'
-import { prefersReducedMotion } from '@/lib/hooks'
 
 /**
- * Блок 3 Манифест (TZ §5): ступенчатый текст (h1 вместо display-xl — иначе не помещается в закреплённый экран), word-scrub mute → white синхронно со скроллом,
- * две капсулы с фото внутри строк. Текст закреплён (pin), пока идёт scrub (~120vh).
- * reduced-motion: без pin и scrub, текст сразу белый.
+ * Блок 3 Манифест (TZ §5): ступенчатый текст белым, две капсулы с фото внутри строк.
+ * Закрепление и заливка цветом по скроллу убраны по просьбе заказчика — блок просто прокручивается.
  */
 export function Manifest() {
-  const section = useRef<HTMLElement>(null)
-  const text = useRef<HTMLParagraphElement>(null)
 
-  useEffect(() => {
-    const words = text.current?.querySelectorAll<HTMLElement>('[data-word]')
-    if (!section.current || !words?.length) return
-    if (prefersReducedMotion()) { words.forEach((w) => w.style.setProperty('color', 'var(--de-white)')); return }
-    const white = getComputedStyle(document.documentElement).getPropertyValue('--de-white').trim()
-    const tl = gsap.timeline({
-      // на мобиле секция без верхнего отступа (правки заказчика) — закрепляем ниже плашки меню
-      scrollTrigger: { trigger: section.current, start: window.innerWidth < 768 ? 'top 80px' : 'top top', end: '+=120%', scrub: 0.6, pin: true, anticipatePin: 1 },
-    })
-    tl.to(words, { color: white, ease: 'none', stagger: 0.12, duration: 0.5 })
-    return () => { tl.scrollTrigger?.kill(); tl.kill() }
-  }, [])
 
   return (
-    <section ref={section} aria-labelledby="manifest-title" className="flex flex-col px-margin pb-16 pt-4 md:pb-20 md:pt-24">
+    <section aria-labelledby="manifest-title" className="flex flex-col px-margin pb-16 pt-4 md:pb-20 md:pt-24">
       <div className="grid grid-cols-4 gap-gutter md:grid-cols-12">
         <SectionLabel index={manifest.index} className="col-span-4 mb-12 md:col-span-3 md:mb-0">{manifest.label}</SectionLabel>
         <h2 id="manifest-title" className="sr-only">{manifest.text.filter((t) => typeof t === 'string').join(' ')}</h2>
-        <p ref={text} aria-hidden="true" className="text-h1 col-span-4 text-mute md:col-span-12 md:indent-[calc((100%-11*var(--gutter))/12*3+3*var(--gutter))]">
+        <p aria-hidden="true" className="text-h1 col-span-4 text-white md:col-span-12 md:indent-[calc((100%-11*var(--gutter))/12*3+3*var(--gutter))]">
           {manifest.text.map((part, i) =>
             typeof part === 'string' ? (
               <Fragment key={i}>
