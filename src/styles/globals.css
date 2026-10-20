@@ -199,6 +199,10 @@
 .capsule img { animation: ken-burns 14s var(--ease-in-out) infinite alternate; }
 @keyframes ken-burns { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.18) translate(-3%, 2%); } }
 
+/* Блок 2: контурная строка приветствия (stroke 1px) */
+.greeting-outline { color: transparent; -webkit-text-stroke: 1px var(--de-white); }
+.greeting-outline-mute { color: transparent; -webkit-text-stroke: 1px var(--de-mute); }
+
 /* Бегущие чипы направлений в нижней полосе hero */
 .chips-track { animation: chips-run 40s linear infinite; }
 @keyframes chips-run { to { transform: translateX(-50%); } }

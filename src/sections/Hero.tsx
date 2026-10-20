@@ -95,7 +95,7 @@ export function Hero() {
             {hero.scroll}
             <svg viewBox="0 0 12 12" className="size-3" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 1v10M2 7l4 4 4-4" /></svg>
           </p>
-          <span ref={coords} aria-hidden="true" className={cn('text-micro hidden w-[17ch] text-right text-mute tabular-nums lg:inline')}>X 0000 / Y 0000</span>
+          <span ref={coords} aria-hidden="true" className={cn('text-micro hidden whitespace-nowrap text-right text-mute tabular-nums lg:inline')}>X 0000 / Y 0000</span>
         </div>
       </div>
     </Panel>
