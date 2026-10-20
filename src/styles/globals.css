@@ -89,6 +89,8 @@
 @utility text-display-xl {
   font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
   font-size: clamp(48px, 8.4vw, 148px); line-height: .88; letter-spacing: -.05em;
+  /* «РАЗВЛЕЧЕНИЙ» не помещается в 48px на 375px (предложено к правке DESIGN §2.2) */
+  @media (width < 640px) { font-size: 11.6vw; }
 }
 @utility text-h1 {
   font-family: var(--font-display); font-weight: 500; text-transform: uppercase;
@@ -182,6 +184,35 @@
 .ruler-runner {
   transform: translateX(calc(var(--progress, 0) * (100cqw - 1px)));
   box-shadow: 0 0 12px color-mix(in srgb, var(--de-lime) 60%, transparent);
+}
+
+/* Hero: скульптура из частиц (src/components/three/SculptureStage.tsx) */
+.sculpture-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .5s var(--ease-soft); }
+.sculpture-fallback { transition: opacity .5s var(--ease-soft); }
+.sculpture-stage[data-gl="on"] .sculpture-canvas { opacity: 1; }
+.sculpture-stage[data-gl="on"] .sculpture-fallback { opacity: 0; }
+
+/* Hero: line reveal заголовка и появление элементов (DESIGN.md §8.2), reduced-motion — fade 200ms */
+.reveal-line { display: block; overflow: hidden; padding-bottom: .04em; margin-bottom: -.04em; }
+.reveal-line > span { display: block; animation: line-up var(--t-slow) var(--ease-out-expo) both; animation-delay: calc(var(--d, 0) * 60ms + 200ms); }
+.fade-up { animation: fade-up var(--t-slow) var(--ease-out-expo) both; animation-delay: calc(var(--d, 0) * 80ms + 500ms); }
+@keyframes line-up { from { transform: translateY(105%); } to { transform: translateY(0); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* Капсула с фото в строке заголовка: Ken Burns, пока нет видео (TZ §10.4) */
+.capsule { display: inline-block; height: .72em; width: 1.9em; border-radius: var(--r-pill); overflow: hidden; vertical-align: .06em; transition: width var(--t-base) var(--ease-out-expo); }
+.capsule:hover { width: 2.4em; }
+.capsule img { animation: ken-burns 14s var(--ease-in-out) infinite alternate; }
+@keyframes ken-burns { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.18) translate(-3%, 2%); } }
+
+/* Бегущие чипы направлений в нижней полосе hero */
+.chips-track { animation: chips-run 40s linear infinite; }
+@keyframes chips-run { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-line > span, .fade-up { animation: fade-in 200ms ease-out both; }
+  .capsule img, .chips-track { animation: none; }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 }
 
 /* Кастомный курсор: нативный прячем только когда наш активен (desktop, pointer: fine) */

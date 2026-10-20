@@ -12,7 +12,7 @@ export function ProgressCounter() {
     [],
   )
   return (
-    <p aria-hidden="true" className="text-micro pointer-events-none fixed bottom-4 right-(--margin) z-20 text-mute-2 tabular-nums mix-blend-difference">
+    <p aria-hidden="true" className="text-micro pointer-events-none fixed bottom-4 right-(--margin) z-20 hidden sm:block text-mute-2 tabular-nums mix-blend-difference">
       <span ref={ref} className="text-white">000</span> / 100
     </p>
   )

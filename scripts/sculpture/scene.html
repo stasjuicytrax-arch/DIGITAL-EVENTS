@@ -1,0 +1,74 @@
+<!doctype html>
+<!-- Сцена для рендера hero-скульптуры (DESIGN.md §7.3): хром + иризация, тёмная студия с одним лаймовым софтбоксом.
+     Открывается скриптом scripts/render-sculpture.mjs; результат — PNG с прозрачным фоном для движка частиц. -->
+<html>
+<head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style></head>
+<body>
+<script type="importmap">{ "imports": { "three": "/three/build/three.module.js", "three/addons/": "/three/examples/jsm/" } }</script>
+<script type="module">
+import * as THREE from 'three'
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js'
+
+const params = new URLSearchParams(location.search)
+const W = +params.get('w') || 2400, H = +params.get('h') || 960
+const portrait = H > W
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true })
+renderer.setPixelRatio(1)
+renderer.setSize(W, H)
+renderer.setClearColor(0x000000, 0)
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+renderer.toneMappingExposure = 1.25
+renderer.outputColorSpace = THREE.SRGBColorSpace
+document.body.appendChild(renderer.domElement)
+
+// ---- студия для отражений: тёмная комната, белые полосы-софтбоксы и один лаймовый ----
+const env = new THREE.Scene()
+env.background = new THREE.Color(0x050506)
+const room = new THREE.Mesh(new THREE.BoxGeometry(20, 12, 20), new THREE.MeshBasicMaterial({ color: 0x26262b, side: THREE.BackSide }))
+env.add(room)
+const light = (w, h, color, k, pos, rot) => {
+  const m = new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide })
+  m.color.multiplyScalar(k)
+  const p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m)
+  p.position.set(...pos); p.rotation.set(...rot)
+  env.add(p)
+}
+light(12, 4, 0xffffff, 5, [0, 5.5, 0], [Math.PI / 2, 0, 0])          // верхний софтбокс
+light(2.2, 10, 0xffffff, 7, [-7, 0, -3], [0, Math.PI / 2.6, 0])       // левая полоса
+light(1.6, 10, 0xdfe6ff, 5, [6, 0, -5], [0, -Math.PI / 3, 0])         // правая холодная полоса
+light(6, 7, 0xb6fc46, 2.6, [7.5, -1, 3], [0, -Math.PI / 2.2, 0]) // лаймовый софтбокс (DESIGN §1.3: интенсивность умеренная)
+light(16, 1.2, 0xffffff, 3, [0, -2.6, -8], [0, 0, 0])               // горизонт-блик
+const pmrem = new THREE.PMREMGenerator(renderer)
+const envMap = pmrem.fromScene(env, 0.02).texture
+
+// ---- скульптура: скрученный тор-узел, вытянутый под широкий кадр ----
+const scene = new THREE.Scene()
+scene.environment = envMap
+const geo = mergeVertices(new THREE.TorusKnotGeometry(1, 0.34, 900, 140, 2, 3))
+geo.computeVertexNormals()
+const mat = new THREE.MeshPhysicalMaterial({
+  color: 0xffffff, metalness: 1, roughness: 0.12,
+  iridescence: 1, iridescenceIOR: 1.6, iridescenceThicknessRange: [180, 820],
+  envMapIntensity: 1.25,
+})
+const knot = new THREE.Mesh(geo, mat)
+if (portrait) { knot.scale.set(0.95, 1.55, 0.95); knot.rotation.set(0.35, 0.25, 0.15) }
+else { knot.scale.set(1.75, 0.95, 1); knot.rotation.set(0.42, -0.18, -0.06) }
+scene.add(knot)
+
+const cam = new THREE.PerspectiveCamera(26, W / H, 0.1, 100)
+cam.position.set(0, 0.15, portrait ? 9.2 : 8.1)
+cam.lookAt(0, 0, 0)
+
+// вписываем объект в кадр с полями
+const box = new THREE.Box3().setFromObject(knot)
+const size = box.getSize(new THREE.Vector3())
+const fitH = size.y / (2 * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)))
+const fitW = size.x / (2 * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * cam.aspect)
+cam.position.z = Math.max(fitH, fitW) * 1.12 + size.z / 2
+renderer.render(scene, cam)
+window.__done = renderer.domElement.toDataURL('image/png')
+</script>
+</body>
+</html>
