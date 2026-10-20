@@ -7,7 +7,6 @@ import { site } from '@/content/site'
 import { getMedia } from '@/components/Media'
 import { Paragraphs } from '@/components/Paragraphs'
 import { SectionLabel } from '@/components/SectionLabel'
-import { DirectionCard } from '@/components/Cards'
 import { LiteYouTube } from '@/components/LiteYouTube'
 import { Button } from '@/components/ui/button'
 import { ServiceHero } from '@/components/services/ServiceHero'
@@ -16,6 +15,7 @@ import { FilmGallery, type Frame } from '@/components/services/FilmGallery'
 import { getLenis } from '@/lib/lenis'
 import { pad2 } from '@/lib/tech'
 import { CtaBanner } from '@/components/CtaBanner'
+import { OtherDirections } from '@/components/services/OtherDirections'
 import { Component as NotFound } from './NotFound'
 
 const uniq = (ids: (string | undefined)[]) => [...new Set(ids.filter(Boolean) as string[])]
@@ -67,7 +67,6 @@ export function Component() {
   const picks = (d.picks ?? []).map((p) => { const [pd, pi] = p.split('/'); return { dir: pd, item: getItem(pd, pi) } }).filter((p) => p.item)
   const ungrouped = d.items.filter((i) => !i.group)
   const videos = [...new Set([...d.videos, ...(d.groups ?? []).flatMap((g) => g.videos)])]
-  const others = [1, 2, 3].map((k) => directions[(idx + k) % directions.length])
   const count = picks.length || d.items.length
   const og = frames[0] && getMedia(frames[0])
   const chipItems = d.items.length ? d.items : picks.map((p) => p.item!)
@@ -174,17 +173,7 @@ export function Component() {
 
       <CtaBanner service={d.title} className="mt-24 md:mt-32" />
 
-      <section aria-labelledby="others-title" className="pt-24 md:pt-32">
-        <div className="px-margin"><SectionLabel>{t.othersTitle}</SectionLabel></div>
-        <h2 id="others-title" className="sr-only">{t.othersTitle}</h2>
-        <ul data-lenis-prevent className="mt-12 flex snap-x snap-mandatory gap-gutter overflow-x-auto px-margin pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {others.map((o) => (
-            <li key={o.slug} className="w-[80vw] shrink-0 snap-start md:w-[calc((100vw-2*var(--margin)-2*var(--gutter))/3)]">
-              <DirectionCard to={`/uslugi/${o.slug}`} n={pad2(directions.indexOf(o) + 1)} title={o.title} count={o.picks ? o.picks.length : o.items.length} cover={o.cover ?? o.images[0]} />
-            </li>
-          ))}
-        </ul>
-      </section>
+      <OtherDirections current={d.slug} />
     </main>
   )
 }
