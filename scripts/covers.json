@@ -1,0 +1,56 @@
+{
+  "_comment": "Ручной отбор фото (TZ §10.2). order: подстроки имён файлов, первая — обложка; exclude: не брать; extra: добавить файлы из другой папки old-site; directionCover: обложка направления = обложка этой позиции; noImages: не брать фото папки вовсе.",
+  "order": {
+    "videophoto": ["20211023-24-red", "20c5ca6a", "img-0164"],
+    "videophoto/scrollcam-360": ["promoil-0666", "1-004", "dpuubnxk96q"],
+    "videophoto/tvoya-planeta": ["img-4799", "img-4823", "img-0640"],
+    "videophoto/3d-kaleydoskop": ["532a4421", "532a4984", "57999227"],
+    "videophoto/media-cube": ["facetune-15-03-2020-01", "facetune-15-03-2020-02"],
+    "videophoto/selfie-star": ["dsc-4063", "andreactormailru-5", "dsp-5597"],
+    "videophoto/planeta-molodozhenov": ["img-1426", "1dx-0343"],
+    "videophoto/selfi-stoyka": ["en56037", "en56608", "en55907"],
+    "videophoto/selfi-zerkalo": ["selfi-zerkalo-01", "r2adkmp-xdy", "8u7a6223"],
+    "videophoto/lazernyy-koridor": ["img-0164", "img-0186", "img-0135"],
+    "interactive": ["img-3215", "momentyux-68", "img-3237"],
+    "interactive/headtalk": ["dsc-6661", "headtalk-02", "6d11f582"],
+    "interactive/live-paint": ["alpha-0214", "2022-04-08-00-28-09-01", "img-4019"],
+    "interactive/multiface": ["pgh-0685", "2022-03-06-16-45-45-03", "pgh-0609"],
+    "interactive/randomizer": ["img-3885", "img-3890"],
+    "interactive/videograffiti": ["momentyux-68", "momentyux-61", "img-3207"],
+    "interactive/playtronica": ["maxresdefault", "playtronica-02"],
+    "videogames/bon-voyazh": ["bon-voyazh-05"],
+    "videogames/don-kupidon": ["don-kupidon-05", "don-kupidon-01"],
+    "videogames/karaorke": ["karaorke-01", "karaorke-06"],
+    "videogames/poprygunchik": ["poprygunchik-04", "poprygunchik-01"],
+    "videogames/snegurochka": ["snegurochka-01"],
+    "videogames/snezhnyy-marafon": ["snezhnyy-marafon-03"],
+    "videogames/tachki-tyanuchki": ["tachki-tyanuchki-03"],
+    "videogames/toropyzhka": ["toropyzhka-02", "toropyzhka-05", "toropyzhka-06"],
+    "videogames/begi-ded-begi": ["begi-ded-begi-02", "begi-ded-begi-01"],
+    "videogames/frirayder": ["frirayder-03", "frirayder-01", "frirayder-05"],
+    "videogames/myshinye-bega": ["myshinye-bega-01"],
+    "videogames/skeyter": ["skeyter-02", "skeyter-09", "skeyter-04"],
+    "videogames/vr": ["img-6366", "unnamed-1", "img-7412-1-1"],
+    "3d-mapping": ["dsc-6790-1"],
+    "3d-mapping/tort": ["rach8838", "rach8856", "3d-mapping-na-tort-04"],
+    "3d-mapping/stoly": ["3d-mapping-na-stoly-01", "dsc-6768", "dsc-6784"],
+    "3d-mapping/avto": ["631da311a6", "89160d9a88", "3d-mapping-na-avto"],
+    "ar/ar-for-business": ["img-8313-1", "img-8318", "nlelyyxc4dflmodng18u"],
+    "ar/ar-for-events": ["1-1.jpg", "ar-for-events-03", "ar-for-events-01"],
+    "digital-decor": ["dsc-4439", "2022-11-28-13-10-27", "dsc-4806"],
+    "installations/lyubov-permi": ["photo-2022-12-19-20", "page-0005"]
+  },
+  "exclude": {
+    "ar/ar-for-business": ["ar-de", "de-ar", "ar-for-business-01", "ar-for-business-03", "ar-for-business-05"],
+    "videophoto/tvoya-planeta": ["2022-04-08-00-18-54"]
+  },
+  "extra": {
+    "installations/lyubov-permi": ["services/installations/installations--photo-2022-12-19-20.jpg"]
+  },
+  "directionCover": {
+    "videogames": "skeyter",
+    "ar": "ar-for-events",
+    "new-year": "videogames/begi-ded-begi"
+  },
+  "noImages": ["new-year"]
+}
