@@ -46,7 +46,7 @@ const DIRECTIONS = [
     tag: 'Mapping',
   },
   {
-    slug: 'ar', title: 'AR · дополненная реальность', src: 'services/ar',
+    slug: 'ar', title: 'AR / дополненная реальность', src: 'services/ar',
     summary: 'Реальная картинка и графика поверх неё на одном экране: для бизнеса и для событий', tags: ['business', 'events'],
     items: [['ar-for-business', 'AR для бизнеса'], ['ar-for-events', 'AR для событий']],
     tag: 'AR',
@@ -152,7 +152,9 @@ function parseBody(lines, title, { stopAtCta = false } = {}) {
     // дубль названия направления в начале текста
     if (!out.text.length && !buf && isCaps(l) && norm(title).includes(norm(l))) continue
     if (isCaps(l) && l.length < 50 && !/[.!?]$/.test(l)) { flush(); out.text.push({ heading: sentenceCase(l) }); continue }
-    buf = buf ? `${buf} ${l}` : l
+    // пункт списка «- …» — отдельный абзац (продолжение пункта со строчной буквы приклеится к нему)
+    if (/^[-–—•]\s/.test(raw)) flush()
+    buf = buf ? `${buf} ${l}` : l.replace(/^[-–•]\s+/, '— ')
     // короткая строка-слоган без точки, за которой идёт новое предложение, — отдельный абзац
     const next = nextText(i)
     if (/[.!?…»")]$/.test(l) || (buf === l && l.length < 70 && /^[А-ЯЁA-Z«"]/.test(next) && !isCaps(next))) flush()

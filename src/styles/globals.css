@@ -319,12 +319,6 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
   .hero-kenburns { animation: none; }
 }
 
-/* Индекс каталога: на наведении остальные строки гаснут до --de-mute */
-.index-list .index-row { color: var(--de-white); transition: color var(--t-base) var(--ease-soft); }
-.index-list:has(.index-row:hover) .index-row:not(:hover) { color: var(--de-mute); }
-/* WebGL-превью за курсором: появление масштабом и прозрачностью */
-.index-preview { opacity: 0; scale: .86; transition: opacity var(--t-base) var(--ease-out-expo), scale var(--t-base) var(--ease-out-expo); will-change: transform; }
-.index-preview[data-visible="true"] { opacity: 1; scale: 1; }
 
 /* CTA-баннер: точечная сетка, вокруг курсора подсвечивается лаймом (spotlight ~300px) */
 .cta-dots { background-image: radial-gradient(circle at center, var(--de-line-strong) 1px, transparent 1.6px); background-size: 16px 16px; }
@@ -335,3 +329,6 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 /* line-reveal заголовка запускается, когда баннер доехал до экрана */
 .cta-title:not([data-in]) .reveal-line > span { animation: none; transform: translateY(105%); }
 @media (prefers-reduced-motion: reduce) { .cta-title:not([data-in]) .reveal-line > span { transform: none; } }
+
+/* Карточка позиции: размытая увеличенная копия текущего кадра за стеклянной панелью */
+.item-backdrop img { filter: blur(80px) saturate(1.2); transform: scale(1.3); opacity: .35; }

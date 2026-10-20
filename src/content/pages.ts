@@ -8,6 +8,7 @@ export const catalogPage = {
   metaDescription:
     'Видео и фото зоны, интерактивы, видеоигры, 3D-mapping, AR, digital decor, инсталляции, онлайн-мероприятия и video production для событий любого формата.',
   // текст со старого сайта
+  more: 'Подробнее',
   helpTitle: 'Нужна помощь или остались вопросы?',
   helpText: 'Оставь контакты, и наши менеджеры помогут выбрать и забронировать продукт.',
   helpCta: { label: 'Обсудить задачу', to: '/contacts' },
@@ -23,6 +24,11 @@ export const servicePage = {
   stripTitle: 'Обсудим ваше событие?',
   stripCta: { label: 'Обсудить задачу', to: '/contacts' },
   othersTitle: 'Другие направления',
+  prevDir: 'Предыдущее направление',
+  nextDir: 'Следующее направление',
+  allLabel: 'Весь каталог',
+  allTitle: (n: number) => `${n} направлений`,
+  allCta: 'Весь каталог',
   photoAlt: (title: string, n: number) => `${title} — фото ${n}`,
   // HUD-строка hero: «[01 / 10] НАПРАВЛЕНИЕ · 09 ПОЗИЦИЙ · ПЕРМЬ»
   hudKind: 'Направление',
