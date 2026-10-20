@@ -343,9 +343,9 @@ fs.writeFileSync(path.join(ROOT, 'src/content/services.ts'), ts)
 fs.writeFileSync(path.join(import.meta.dirname, 'media-sources.json'), JSON.stringify(sources, null, 1))
 
 // Лёгкий индекс направлений для навигации и каталога (без текстов, чтобы не тянуть services.ts в каждую страницу)
-const catalog = directions.map((d) => ({ slug: d.slug, title: d.title, summary: d.summary, tags: d.tags, count: d.picks ? d.picks.length : d.items.length, cover: d.cover }))
+const catalog = directions.map((d) => ({ slug: d.slug, title: d.title, summary: d.summary, tags: d.tags, count: d.picks ? d.picks.length : d.items.length, cover: d.cover, items: d.items.map((i) => i.slug) }))
 fs.writeFileSync(path.join(ROOT, 'src/content/catalog.ts'), `// Сгенерировано scripts/build-content.mjs. Лёгкий индекс направлений для навигации и каталога.
-export type CatalogEntry = { slug: string; title: string; summary: string; tags: string[]; count: number; cover?: string }
+export type CatalogEntry = { slug: string; title: string; summary: string; tags: string[]; count: number; cover?: string; items: string[] }
 
 export const catalog: CatalogEntry[] = ${JSON.stringify(catalog, null, 2)}
 `)

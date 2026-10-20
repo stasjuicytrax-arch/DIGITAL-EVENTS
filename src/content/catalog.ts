@@ -1,5 +1,5 @@
 // Сгенерировано scripts/build-content.mjs. Лёгкий индекс направлений для навигации и каталога.
-export type CatalogEntry = { slug: string; title: string; summary: string; tags: string[]; count: number; cover?: string }
+export type CatalogEntry = { slug: string; title: string; summary: string; tags: string[]; count: number; cover?: string; items: string[] }
 
 export const catalog: CatalogEntry[] = [
   {
@@ -10,7 +10,18 @@ export const catalog: CatalogEntry[] = [
       "9 зон"
     ],
     "count": 9,
-    "cover": "videophoto/videophoto-01"
+    "cover": "videophoto/videophoto-01",
+    "items": [
+      "scrollcam-360",
+      "tvoya-planeta",
+      "3d-kaleydoskop",
+      "media-cube",
+      "selfie-star",
+      "planeta-molodozhenov",
+      "selfi-stoyka",
+      "selfi-zerkalo",
+      "lazernyy-koridor"
+    ]
   },
   {
     "slug": "interactive",
@@ -20,7 +31,15 @@ export const catalog: CatalogEntry[] = [
       "6 форматов"
     ],
     "count": 6,
-    "cover": "interactive/interactive-01"
+    "cover": "interactive/interactive-01",
+    "items": [
+      "headtalk",
+      "live-paint",
+      "multiface",
+      "randomizer",
+      "videograffiti",
+      "playtronica"
+    ]
   },
   {
     "slug": "videogames",
@@ -32,7 +51,24 @@ export const catalog: CatalogEntry[] = [
       "VR"
     ],
     "count": 15,
-    "cover": "videogames/skeyter-01"
+    "cover": "videogames/skeyter-01",
+    "items": [
+      "bon-voyazh",
+      "don-kupidon",
+      "karaorke",
+      "peretyani-deda",
+      "poprygunchik",
+      "snegurochka",
+      "snezhnyy-marafon",
+      "tachki-tyanuchki",
+      "toropyzhka",
+      "begi-ded-begi",
+      "frirayder",
+      "myshinye-bega",
+      "skeyter",
+      "vr",
+      "game-adaptation"
+    ]
   },
   {
     "slug": "3d-mapping",
@@ -44,7 +80,12 @@ export const catalog: CatalogEntry[] = [
       "авто"
     ],
     "count": 3,
-    "cover": "3d-mapping/3d-mapping-01"
+    "cover": "3d-mapping/3d-mapping-01",
+    "items": [
+      "tort",
+      "stoly",
+      "avto"
+    ]
   },
   {
     "slug": "ar",
@@ -55,7 +96,11 @@ export const catalog: CatalogEntry[] = [
       "events"
     ],
     "count": 2,
-    "cover": "ar/ar-for-events-01"
+    "cover": "ar/ar-for-events-01",
+    "items": [
+      "ar-for-business",
+      "ar-for-events"
+    ]
   },
   {
     "slug": "digital-decor",
@@ -66,7 +111,8 @@ export const catalog: CatalogEntry[] = [
       "LED"
     ],
     "count": 0,
-    "cover": "digital-decor/digital-decor-01"
+    "cover": "digital-decor/digital-decor-01",
+    "items": []
   },
   {
     "slug": "installations",
@@ -76,7 +122,10 @@ export const catalog: CatalogEntry[] = [
       "арт"
     ],
     "count": 1,
-    "cover": "installations/installations-01"
+    "cover": "installations/installations-01",
+    "items": [
+      "lyubov-permi"
+    ]
   },
   {
     "slug": "online",
@@ -86,7 +135,8 @@ export const catalog: CatalogEntry[] = [
       "online"
     ],
     "count": 0,
-    "cover": "online/online-01"
+    "cover": "online/online-01",
+    "items": []
   },
   {
     "slug": "video-production",
@@ -96,7 +146,8 @@ export const catalog: CatalogEntry[] = [
       "видео"
     ],
     "count": 0,
-    "cover": "video-production/video-production-01"
+    "cover": "video-production/video-production-01",
+    "items": []
   },
   {
     "slug": "new-year",
@@ -106,6 +157,7 @@ export const catalog: CatalogEntry[] = [
       "new year"
     ],
     "count": 4,
-    "cover": "videogames/begi-ded-begi-01"
+    "cover": "videogames/begi-ded-begi-01",
+    "items": []
   }
 ]
