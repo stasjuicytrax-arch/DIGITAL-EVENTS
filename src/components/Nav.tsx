@@ -1,7 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import { nav } from '@/content/nav'
 import { catalog } from '@/content/catalog'
 import { site } from '@/content/site'
@@ -39,10 +39,12 @@ function Burger({ open, onClick, controls, tabIndex }: { open: boolean; onClick:
   )
 }
 
-function MegaMenu({ id, onClose }: { id: string; onClose: () => void }) {
+function MegaMenu({ id, onClose, onEnter, onLeave }: { id: string; onClose: () => void; onEnter: () => void; onLeave: () => void }) {
   return (
     <motion.div
       id={id}
+      onPointerEnter={onEnter}
+      onPointerLeave={onLeave}
       initial={{ opacity: 0, y: -8, filter: 'blur(6px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       exit={{ opacity: 0, y: -8, filter: 'blur(6px)' }}
@@ -72,7 +74,7 @@ function MegaMenu({ id, onClose }: { id: string; onClose: () => void }) {
   )
 }
 
-function OverlayLink({ to, label, index, onClick }: { to: string; label: string; index: number; onClick: () => void }) {
+function OverlayLink({ to, label, index, onClick, children }: { to: string; label: string; index: number; onClick: () => void; children?: React.ReactNode }) {
   const [ref, run] = useScramble<HTMLSpanElement>(label)
   return (
     <li className="overflow-hidden">
@@ -92,6 +94,7 @@ function OverlayLink({ to, label, index, onClick }: { to: string; label: string;
         <span className="text-label text-mute-2 tabular-nums">{String(index + 1).padStart(2, '0')}</span>
         <span ref={ref}>{label}</span>
       </NavLink>
+      {children}
       </motion.div>
     </li>
   )
@@ -120,7 +123,15 @@ function Overlay({ id, onClose }: { id: string; onClose: () => void }) {
     >
       <ul className="flex flex-col">
         {nav.links.map((l, i) => (
-          <OverlayLink key={l.to} to={l.to} label={l.label} index={i} onClick={onClose} />
+          <OverlayLink key={l.to} to={l.to} label={l.label} index={i} onClick={onClose}>
+            {'mega' in l && l.mega && (
+              <ul className="mb-4 mt-2 flex flex-wrap gap-x-4 gap-y-2 pl-9">
+                {catalog.map((d) => (
+                  <li key={d.slug}><Link to={`/uslugi/${d.slug}`} onClick={onClose} className="text-label text-mute-2 hover:text-white">{d.title}</Link></li>
+                ))}
+              </ul>
+            )}
+          </OverlayLink>
         ))}
       </ul>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ delay: 0.4, duration: 0.4 }} className="mt-12 flex flex-wrap items-center justify-between gap-6">
@@ -185,6 +196,10 @@ export function Nav() {
   const logo = useRef<HTMLDivElement>(null)
   const burger = useRef<HTMLDivElement>(null)
   const [geo, setGeo] = useState({ cut: 0, dx: 0 })
+  // hover-intent мега-меню: 150 мс на открытие, 250 мс на закрытие — не мигает при проходе мышью
+  const hoverT = useRef(0)
+  const openSoon = () => { clearTimeout(hoverT.current); hoverT.current = window.setTimeout(() => setMega(true), 150) }
+  const closeSoon = () => { clearTimeout(hoverT.current); hoverT.current = window.setTimeout(() => setMega(false), 250) }
 
   // геометрия сжатого состояния: сколько ширины убрать у подложки и на сколько подвинуть бургер к лого
   useLayoutEffect(() => {
@@ -236,18 +251,26 @@ export function Nav() {
           <nav aria-label="Основное меню" aria-hidden={!expanded || undefined} className="relative ml-8 hidden items-center gap-1 lg:flex">
             {nav.links.map((l, i) =>
               'mega' in l && l.mega ? (
-                <button
-                  key={l.to}
-                  type="button"
-                  tabIndex={off}
-                  style={{ '--i': i } as CSSProperties}
-                  aria-expanded={mega}
-                  aria-controls={megaId}
-                  onClick={() => setMega((v) => !v)}
-                  className={cn('nav-item rounded-pill px-4 py-2 text-small hover:text-white', mega || pathname.startsWith('/uslugi') && pathname !== '/uslugi/videogames' ? 'text-white' : 'text-mute-2')}
-                >
-                  {l.label}
-                </button>
+                <div key={l.to} style={{ '--i': i } as CSSProperties} onPointerEnter={openSoon} onPointerLeave={closeSoon} className="nav-item flex items-center">
+                  <NavLink
+                    to={l.to}
+                    tabIndex={off}
+                    className={cn('rounded-pill py-2 pl-4 pr-1 text-small hover:text-white', mega || (pathname.startsWith('/uslugi') && pathname !== '/uslugi/videogames') ? 'text-white' : 'text-mute-2')}
+                  >
+                    {l.label}
+                  </NavLink>
+                  <button
+                    type="button"
+                    tabIndex={off}
+                    aria-label={nav.megaToggle}
+                    aria-expanded={mega}
+                    aria-controls={megaId}
+                    onClick={() => { clearTimeout(hoverT.current); setMega((v) => !v) }}
+                    className="mr-2 grid size-7 place-items-center rounded-full text-mute-2 transition-colors duration-(--t-fast) hover:bg-white/10 hover:text-white"
+                  >
+                    <ChevronDown strokeWidth={1.5} className={cn('size-4 transition-transform duration-(--t-base) ease-out-expo', mega && 'rotate-180')} />
+                  </button>
+                </div>
               ) : (
                 <NavLink key={l.to} to={l.to} tabIndex={off} style={{ '--i': i } as CSSProperties} className={({ isActive }) => cn('nav-item rounded-pill px-4 py-2 text-small hover:text-white', isActive ? 'text-white' : 'text-mute-2')}>
                   {l.label}
@@ -265,7 +288,7 @@ export function Nav() {
             <Burger open={menu} onClick={() => setMenu((v) => !v)} controls={menuId} />
           </div>
 
-          <AnimatePresence>{mega && expanded && <MegaMenu id={megaId} onClose={() => setMega(false)} />}</AnimatePresence>
+          <AnimatePresence>{mega && expanded && <MegaMenu id={megaId} onClose={() => setMega(false)} onEnter={openSoon} onLeave={closeSoon} />}</AnimatePresence>
         </div>
       </header>
       <AnimatePresence>{menu && <Overlay id={menuId} onClose={() => setMenu(false)} />}</AnimatePresence>
