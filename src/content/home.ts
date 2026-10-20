@@ -4,7 +4,7 @@ export const hero = {
   titleTop: 'Технологии',
   titleBottom: 'развлечений',
   lead: 'Разрабатываем digital-продукты для ваших событий и бизнеса. Первые в Пермском крае внедряем digital-развлечения в события любого формата.',
-  ctaPrimary: { label: 'Обсудить задачу', to: '/#contact' },
+  ctaPrimary: { label: 'Обсудить задачу', to: '/contacts' },
   ctaSecondary: { label: 'Что мы умеем', to: '/#services' },
   /** слово-призрак за скульптурой (TZ §7, референс e6530….jpg) */
   backdrop: 'DIGITAL',
@@ -43,7 +43,7 @@ export const result = {
   ],
   stickers: ['Мы не работаем хаотично', 'Любим своё дело'],
   unique: 'Мы сами разрабатываем свои продукты: от программного кода до запуска.',
-  cta: { label: 'Связаться с нами', to: '/#contact' },
+  cta: { label: 'Связаться с нами', to: '/contacts' },
 } as const
 
 /** Блок 9: «Так что мы умеем?» (TZ §5). Строки — src/content/catalog.ts */
@@ -53,7 +53,7 @@ export const servicesBlock = {
   titleTop: 'Так что мы',
   titleBottom: 'умеем?',
   footnote: '*А умеем мы многое',
-  cta: { label: 'Обсудить проект', to: '/#contact' },
+  cta: { label: 'Обсудить проект', to: '/contacts' },
   all: { label: 'Весь каталог', to: '/uslugi' },
   open: 'Смотреть направление',
 } as const

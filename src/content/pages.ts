@@ -10,24 +10,24 @@ export const catalogPage = {
   // текст со старого сайта
   helpTitle: 'Нужна помощь или остались вопросы?',
   helpText: 'Оставь контакты, и наши менеджеры помогут выбрать и забронировать продукт.',
-  helpCta: { label: 'Обсудить задачу', to: '/#contact' },
+  helpCta: { label: 'Обсудить задачу', to: '/contacts' },
 } as const
 
 export const servicePage = {
   crumbsRoot: { label: 'Услуги', to: '/uslugi' },
-  cta: { label: 'Оставить заявку', to: '/#contact' },
+  cta: { label: 'Оставить заявку', to: '/contacts' },
   itemsTitle: 'Позиции',
   picksTitle: 'Подборка',
   galleryTitle: 'Галерея',
   videoTitle: 'Видео',
   stripTitle: 'Обсудим ваше событие?',
-  stripCta: { label: 'Обсудить задачу', to: '/#contact' },
+  stripCta: { label: 'Обсудить задачу', to: '/contacts' },
   othersTitle: 'Другие направления',
   photoAlt: (title: string, n: number) => `${title} — фото ${n}`,
 } as const
 
 export const itemPage = {
-  order: { label: 'Заказать', to: '/#contact' },
+  order: { label: 'Заказать', to: '/contacts' },
   watch: 'Смотреть видео',
   descriptionTitle: 'Описание',
   techTitle: 'Технические требования',

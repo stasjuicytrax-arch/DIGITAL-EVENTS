@@ -32,8 +32,8 @@ export function Component() {
 
       <Block index="01" title={kit.buttons}>
         <div className="flex flex-wrap items-center gap-6">
-          <Button href="/#contact">{kit.primary}</Button>
-          <Button href="/#contact" size="compact">{kit.compact}</Button>
+          <Button href="/contacts">{kit.primary}</Button>
+          <Button href="/contacts" size="compact">{kit.compact}</Button>
           <Button variant="ghost">{kit.ghost}</Button>
           <Button variant="link" href="/uslugi" arrow>{kit.link}</Button>
           <Button disabled>{kit.disabled}</Button>

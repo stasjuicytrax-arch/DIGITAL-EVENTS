@@ -125,6 +125,8 @@
 @utility px-margin { padding-inline: var(--margin); }
 @utility gap-gutter { gap: var(--gutter); }
 @utility py-section { padding-block: var(--section-y); }
+@utility pt-section { padding-top: var(--section-y); }
+@utility mt-section { margin-top: var(--section-y); }
 
 /* Liquid Glass DESIGN.md §7.1 (фильтр — src/components/ui/liquid-glass.tsx).
    Фолбэк: blur(10px) + полупрозрачная белая заливка; в Chromium — SVG-преломление. */

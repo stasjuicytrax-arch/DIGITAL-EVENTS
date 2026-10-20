@@ -25,9 +25,9 @@ function Logo({ c, dup }: { c: Client; dup?: boolean }) {
 
 /**
  * Блок 8 Клиенты (TZ §5): cream-секция, два ряда логотипов навстречу друг другу,
- * монохром --de-ink 60%, на hover — полный цвет и лёгкое увеличение. Скорость от скролла.
+ * монохром --de-ink 60%, на hover — полный цвет и лёгкое увеличение. Скорость от скролла. Текст переопределяется (на /about — «Работаем с лучшими»).
  */
-export function Clients() {
+export function Clients({ text = clientsBlock }: { text?: { index?: string; label: string; titleTop: string; titleBottom: string } }) {
   const [section, row] = useVelocityMarquee<HTMLElement>({ speed: 40 })
   const half = Math.ceil(clients.length / 2)
   const rows = [clients.slice(0, half), clients.slice(half)]
@@ -35,9 +35,9 @@ export function Clients() {
   return (
     <section ref={section} aria-labelledby="clients-title" className="overflow-hidden bg-cream py-section text-ink [--logo-h:32px] md:[--logo-h:48px]">
       <div className="grid grid-cols-4 gap-gutter px-margin md:grid-cols-12">
-        <SectionLabel index={clientsBlock.index} tone="light" className="col-span-4 md:col-span-3">{clientsBlock.label}</SectionLabel>
+        <SectionLabel index={text.index} tone="light" className="col-span-4 md:col-span-3">{text.label}</SectionLabel>
         <h2 id="clients-title" className="text-h2 col-span-4 mt-8 md:col-span-9 md:mt-0">
-          <span className="text-ink">{clientsBlock.titleTop}</span> <span className="text-mute">{clientsBlock.titleBottom}</span>
+          <span className="text-ink">{text.titleTop}</span> <span className="text-mute">{text.titleBottom}</span>
         </h2>
       </div>
 

@@ -8,7 +8,7 @@ export const nav = {
     { label: 'О нас', to: '/about' },
     { label: 'Контакты', to: '/contacts' },
   ],
-  cta: { label: 'Обсудить задачу', to: '/#contact' },
+  cta: { label: 'Обсудить задачу', to: '/contacts' },
   megaTitle: 'Все направления',
   megaAll: 'Весь каталог',
   menuOpen: 'Открыть меню',

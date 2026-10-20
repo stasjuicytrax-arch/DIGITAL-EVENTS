@@ -22,6 +22,9 @@ export const routes: RouteRecord[] = [
         // пре-рендер всех позиций
         getStaticPaths: () => catalog.flatMap((d) => d.items.map((i) => `uslugi/${d.slug}/${i}`)),
       },
+      { path: 'portfolio', lazy: () => import('./pages/Portfolio') },
+      { path: 'about', lazy: () => import('./pages/About') },
+      { path: 'contacts', lazy: () => import('./pages/Contacts') },
       { path: 'kit', lazy: () => import('./pages/Kit') },
       { path: '*', lazy: () => import('./pages/NotFound') },
     ],
